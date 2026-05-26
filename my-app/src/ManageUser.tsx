@@ -37,44 +37,46 @@ function ManageUser() {
 
   return (
     <div className="manage-user">
-      <div className="manage-user-header">
-        <div>
-          <h1>Edit User List</h1>
-          <div className="breadcrumb">
-            <span>Home</span>
-            <span className="breadcrumb-separator">|</span>
-            <span>Edit User List</span>
+      <div className="manage-user-header-section">
+        <div className="manage-user-header">
+          <div>
+            <h1>Edit User List</h1>
+            <div className="breadcrumb">
+              <span>Home</span>
+              <span className="breadcrumb-separator">|</span>
+              <span>Edit User List</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="manage-user-controls">
-        <div className="controls-right">
-          <div className="search-bar">
-            <input
-              type="text"
-              placeholder="Search"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <span className="search-icon">🔍</span>
-          </div>
+        <div className="manage-user-controls">
+          <div className="controls-right">
+            <div className="search-bar">
+              <input
+                type="text"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <span className="search-icon">🔍</span>
+            </div>
 
-          <div className="type-buttons">
-            <button
-              className={`type-btn ${userType === 'user' ? 'active' : ''}`}
-              onClick={() => setUserType('user')}
-              title="User"
-            >
-              <img src="/User Button.png" alt="User" />
-            </button>
-            <button
-              className={`type-btn ${userType === 'evp' ? 'active' : ''}`}
-              onClick={() => setUserType('evp')}
-              title="EVP"
-            >
-              <img src="/EVP Button.png" alt="EVP" />
-            </button>
+            <div className="type-buttons">
+              <button
+                className={`type-btn ${userType === 'user' ? 'active' : ''}`}
+                onClick={() => setUserType('user')}
+                title="User"
+              >
+                <img src="/User Button.png" alt="User" />
+              </button>
+              <button
+                className={`type-btn ${userType === 'evp' ? 'active' : ''}`}
+                onClick={() => setUserType('evp')}
+                title="EVP"
+              >
+                <img src="/EVP Button.png" alt="EVP" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -82,17 +84,19 @@ function ManageUser() {
       <div className="users-grid">
         {filteredUsers.map((user) => (
           <div key={user.id} className="user-card">
-            <div className="user-avatar" style={{ backgroundColor: user.avatarColor }}>
-              {user.initials}
-            </div>
-            <div className="user-info">
-              <h3>{user.name}</h3>
-              <p>{user.email}</p>
-            </div>
-            <div className="user-status">
-              <span className={`status-badge ${user.status.toLowerCase()}`}>
-                {user.status === 'Active' ? '●' : '●'} {user.status}
-              </span>
+            <div className="user-card-content">
+              <div className="user-avatar" style={{ backgroundColor: user.avatarColor }}>
+                {user.initials}
+              </div>
+              <div className="user-info">
+                <h3>{user.name}</h3>
+                <p>{user.email}</p>
+              </div>
+              <div className="user-status">
+                <span className={`status-badge ${user.status.toLowerCase()}`}>
+                  {user.status === 'Active' ? '●' : '●'} {user.status}
+                </span>
+              </div>
             </div>
             <div className="user-actions">
               <button className="action-btn" title="View">

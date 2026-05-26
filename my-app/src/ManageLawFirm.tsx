@@ -50,92 +50,96 @@ function ManageLawFirm() {
 
   return (
     <div className="manage-law-firm">
-      <div className="manage-header">
-        <div>
-          <h1>Edit Law Firm List</h1>
-          <div className="breadcrumb">
-            <span>Home</span>
-            <span className="breadcrumb-separator">|</span>
-            <span>Edit Law Firm List</span>
+      <div className="manage-header-section">
+        <div className="manage-header">
+          <div>
+            <h1>Edit Law Firm List</h1>
+            <div className="breadcrumb">
+              <span>Home</span>
+              <span className="breadcrumb-separator">|</span>
+              <span>Edit Law Firm List</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="manage-controls">
-        <div className="controls-right">
-          <div className="search-bar">
-            <input
-              type="text"
-              placeholder="Search"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <span className="search-icon">🔍</span>
-          </div>
-
-          <button
-            className="filter-btn"
-            onClick={() => setShowFilterPopup(!showFilterPopup)}
-            title="Filter"
-          >
-            <img src="/Filter Icon.png" alt="Filter" />
-          </button>
-
-          {showFilterPopup && (
-            <div className="filter-popup">
-              <div className="filter-header">Filter</div>
-              <div className="filter-fields">
-                <div className="filter-field">
-                  <label htmlFor="registration">Registration Number</label>
-                  <select
-                    id="registration"
-                    value={registrationFilter}
-                    onChange={(e) => setRegistrationFilter(e.target.value)}
-                  >
-                    <option value="">-- All --</option>
-                    <option value="REG001">REG001</option>
-                    <option value="REG002">REG002</option>
-                    <option value="REG003">REG003</option>
-                    <option value="REG004">REG004</option>
-                    <option value="REG005">REG005</option>
-                  </select>
-                </div>
-
-                <div className="filter-field">
-                  <label htmlFor="specialization">Specialization</label>
-                  <select
-                    id="specialization"
-                    value={specializationFilter}
-                    onChange={(e) => setSpecializationFilter(e.target.value)}
-                  >
-                    <option value="">-- All --</option>
-                    <option value="Civil">Civil</option>
-                    <option value="Commercial">Commercial</option>
-                    <option value="Arbitration">Arbitration</option>
-                    <option value="Criminal">Criminal</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="filter-actions">
-                <button className="clear-btn" onClick={handleClearFilters}>
-                  Clear
-                </button>
-                <button className="submit-btn" onClick={handleSubmitFilters}>
-                  Submit
-                </button>
-              </div>
+        <div className="manage-controls">
+          <div className="controls-right">
+            <div className="search-bar">
+              <input
+                type="text"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <span className="search-icon">🔍</span>
             </div>
-          )}
+
+            <button
+              className="filter-btn"
+              onClick={() => setShowFilterPopup(!showFilterPopup)}
+              title="Filter"
+            >
+              <img src="/Filter Icon.png" alt="Filter" />
+            </button>
+
+            {showFilterPopup && (
+              <div className="filter-popup">
+                <div className="filter-header">Filter</div>
+                <div className="filter-fields">
+                  <div className="filter-field">
+                    <label htmlFor="registration">Registration Number</label>
+                    <select
+                      id="registration"
+                      value={registrationFilter}
+                      onChange={(e) => setRegistrationFilter(e.target.value)}
+                    >
+                      <option value="">-- All --</option>
+                      <option value="REG001">REG001</option>
+                      <option value="REG002">REG002</option>
+                      <option value="REG003">REG003</option>
+                      <option value="REG004">REG004</option>
+                      <option value="REG005">REG005</option>
+                    </select>
+                  </div>
+
+                  <div className="filter-field">
+                    <label htmlFor="specialization">Specialization</label>
+                    <select
+                      id="specialization"
+                      value={specializationFilter}
+                      onChange={(e) => setSpecializationFilter(e.target.value)}
+                    >
+                      <option value="">-- All --</option>
+                      <option value="Civil">Civil</option>
+                      <option value="Commercial">Commercial</option>
+                      <option value="Arbitration">Arbitration</option>
+                      <option value="Criminal">Criminal</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="filter-actions">
+                  <button className="clear-btn" onClick={handleClearFilters}>
+                    Clear
+                  </button>
+                  <button className="submit-btn" onClick={handleSubmitFilters}>
+                    Submit
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
       <div className="law-firms-grid">
         {filteredLawFirms.map((firm) => (
           <div key={firm.id} className="law-firm-card">
-            <div className="firm-info">
-              <h3>{firm.name}</h3>
-              <p>{firm.email}</p>
+            <div className="firm-card-content">
+              <div className="firm-info">
+                <h3>{firm.name}</h3>
+                <p>{firm.email}</p>
+              </div>
             </div>
             <div className="firm-actions">
               <button className="action-btn" title="View">
