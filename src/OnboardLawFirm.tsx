@@ -185,10 +185,10 @@ function OnboardLawFirm({ onCancel }: OnboardLawFirmProps) {
 
           <div className="form-actions">
             <button className="cancel-btn" onClick={handleCancel}>
-              ⊗ Cancel
+              <img src="/Cancel Button.png" alt="Cancel" />
             </button>
             <button className="create-btn" onClick={handleCreateFirm}>
-              ✓ Create Firm
+              <img src="/Create Button.png" alt="Create" />
             </button>
           </div>
         </div>
