@@ -1,0 +1,82 @@
+.chart-container {
+  background-color: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.chart-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #222;
+}
+
+.year-filter {
+  font-size: 14px;
+  color: #666;
+  border: 1px solid #e0e0e0;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.year-filter:hover {
+  border-color: #00a86b;
+  color: #00a86b;
+}
+
+.filter-arrow {
+  margin-left: 6px;
+  font-size: 10px;
+}
+
+.pie-chart-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Recharts customization */
+.recharts-text {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.recharts-legend-wrapper {
+  margin-top: 20px !important;
+}
+
+.recharts-legend-item {
+  color: #666 !important;
+}
+
+.recharts-legend-item-text {
+  font-size: 12px !important;
+  color: #666 !important;
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    padding: 16px;
+  }
+
+  .chart-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .year-filter {
+    font-size: 12px;
+  }
+}
