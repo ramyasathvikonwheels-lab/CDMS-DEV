@@ -54,11 +54,9 @@ function ManageUser() {
             <div className="search-bar">
               <input
                 type="text"
-                placeholder="Search"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <span className="search-icon">🔍</span>
             </div>
 
             <div className="type-buttons">
