@@ -15,6 +15,19 @@ function ManageUser() {
   const [userType, setUserType] = useState<'user' | 'evp'>('user')
   const [currentPage] = useState(1)
 
+  const [showViewPopup, setShowViewPopup] = useState(false)
+  const [showEditPopup, setShowEditPopup] = useState(false)
+  const [showUpdateSuccessPopup, setShowUpdateSuccessPopup] = useState(false)
+  const [selectedUser, setSelectedUser] = useState<User | null>(null)
+  const [editFormData, setEditFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    role: '',
+    status: '',
+    userType: ''
+  })
+
   const users: User[] = [
     { id: '1', name: 'Fazl ur Rahman', email: 'fazlurr@example.com', initials: 'FR', avatarColor: '#FFD700', status: 'Active' },
     { id: '2', name: 'John Doe', email: 'john@example.com', initials: 'JD', avatarColor: '#87CEEB', status: 'Inactive' },
@@ -34,6 +47,62 @@ function ManageUser() {
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   )
+
+  const handleViewClick = (user: User) => {
+    setSelectedUser(user)
+    setShowViewPopup(true)
+  }
+
+  const handleEditClick = (user: User) => {
+    setSelectedUser(user)
+    const [firstName, ...lastNameParts] = user.name.split(' ')
+    const lastName = lastNameParts.join(' ')
+    setEditFormData({
+      firstName: firstName,
+      lastName: lastName,
+      email: user.email,
+      role: 'Electrical Engineer',
+      status: user.status,
+      userType: 'Type of user'
+    })
+    setShowEditPopup(true)
+  }
+
+  const handleCloseViewPopup = () => {
+    setShowViewPopup(false)
+    setSelectedUser(null)
+  }
+
+  const handleCloseEditPopup = () => {
+    setShowEditPopup(false)
+    setSelectedUser(null)
+    setEditFormData({
+      firstName: '',
+      lastName: '',
+      email: '',
+      role: '',
+      status: '',
+      userType: ''
+    })
+  }
+
+  const handleEditInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target
+    setEditFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const handleUpdateUser = () => {
+    console.log('Updating user:', editFormData)
+    handleCloseEditPopup()
+    setShowUpdateSuccessPopup(true)
+  }
+
+  const handleCloseUpdateSuccessPopup = () => {
+    setShowUpdateSuccessPopup(false)
+  }
 
   return (
     <div className="manage-user">
@@ -97,10 +166,10 @@ function ManageUser() {
               </div>
             </div>
             <div className="user-actions">
-              <button className="action-btn" title="View">
+              <button className="action-btn" title="View" onClick={() => handleViewClick(user)}>
                 <img src="/View Icon.png" alt="View" />
               </button>
-              <button className="action-btn" title="Edit">
+              <button className="action-btn" title="Edit" onClick={() => handleEditClick(user)}>
                 <img src="/Edit Icon.png" alt="Edit" />
               </button>
             </div>
@@ -121,6 +190,177 @@ function ManageUser() {
           <button className="nav-btn">⋯</button>
         </div>
       </div>
+
+      {showViewPopup && selectedUser && (
+        <div className="popup-overlay" onClick={handleCloseViewPopup}>
+          <div className="popup-content view-popup" onClick={(e) => e.stopPropagation()}>
+            <div className="popup-header">
+              <h2>View User Details</h2>
+              <button className="popup-close-btn" onClick={handleCloseViewPopup}>
+                ✕
+              </button>
+            </div>
+
+            <div className="popup-body">
+              <div className="user-header">
+                <div className="user-avatar-large" style={{ backgroundColor: selectedUser.avatarColor }}>
+                  {selectedUser.initials}
+                </div>
+                <div className="user-name-section">
+                  <h3>{selectedUser.name}</h3>
+                  <p>Legal Manager</p>
+                </div>
+              </div>
+
+              <div className="details-divider"></div>
+
+              <div className="details-grid">
+                <div className="detail-row">
+                  <label>First Name</label>
+                  <span>{selectedUser.name.split(' ')[0]}</span>
+                </div>
+                <div className="detail-row">
+                  <label>Last Name</label>
+                  <span>{selectedUser.name.split(' ').slice(1).join(' ')}</span>
+                </div>
+                <div className="detail-row">
+                  <label>Email</label>
+                  <span>{selectedUser.email}</span>
+                </div>
+                <div className="detail-row">
+                  <label>Role</label>
+                  <span>Electrical Engineer</span>
+                </div>
+                <div className="detail-row">
+                  <label>Status</label>
+                  <span>{selectedUser.status}</span>
+                </div>
+                <div className="detail-row">
+                  <label>User Type</label>
+                  <span>Type of user</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showEditPopup && selectedUser && (
+        <div className="popup-overlay" onClick={handleCloseEditPopup}>
+          <div className="popup-content edit-popup" onClick={(e) => e.stopPropagation()}>
+            <div className="popup-header">
+              <h2>Edit User Details</h2>
+              <button className="popup-close-btn" onClick={handleCloseEditPopup}>
+                ✕
+              </button>
+            </div>
+
+            <div className="popup-body">
+              <div className="user-header">
+                <div className="user-avatar-large" style={{ backgroundColor: selectedUser.avatarColor }}>
+                  {selectedUser.initials}
+                </div>
+                <div className="user-name-section">
+                  <h3>{selectedUser.name}</h3>
+                  <p>Legal Manager</p>
+                </div>
+              </div>
+
+              <div className="edit-form">
+                <div className="form-row">
+                  <div className="form-field">
+                    <label htmlFor="firstName">First Name</label>
+                    <input
+                      type="text"
+                      id="firstName"
+                      name="firstName"
+                      value={editFormData.firstName}
+                      onChange={handleEditInputChange}
+                    />
+                  </div>
+                  <div className="form-field">
+                    <label htmlFor="lastName">Last Name</label>
+                    <input
+                      type="text"
+                      id="lastName"
+                      name="lastName"
+                      value={editFormData.lastName}
+                      onChange={handleEditInputChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-field">
+                    <label htmlFor="email">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={editFormData.email}
+                      onChange={handleEditInputChange}
+                    />
+                  </div>
+                  <div className="form-field">
+                    <label htmlFor="role">Role</label>
+                    <select id="role" name="role" value={editFormData.role} onChange={handleEditInputChange}>
+                      <option value="">Electrical Engineer</option>
+                      <option value="manager">Manager</option>
+                      <option value="supervisor">Supervisor</option>
+                      <option value="staff">Staff</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-field">
+                    <label htmlFor="status">Status</label>
+                    <select id="status" name="status" value={editFormData.status} onChange={handleEditInputChange}>
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                  </div>
+                  <div className="form-field">
+                    <label htmlFor="userType">User Type</label>
+                    <select id="userType" name="userType" value={editFormData.userType} onChange={handleEditInputChange}>
+                      <option value="">User Type</option>
+                      <option value="admin">Admin</option>
+                      <option value="user">User</option>
+                      <option value="evp">EVP</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="edit-actions">
+                <button className="cancel-btn-text" onClick={handleCloseEditPopup}>
+                  ✕ Cancel
+                </button>
+                <button className="update-btn" onClick={handleUpdateUser}>
+                  ✓ Update
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showUpdateSuccessPopup && (
+        <div className="popup-overlay" onClick={handleCloseUpdateSuccessPopup}>
+          <div className="success-popup-content" onClick={(e) => e.stopPropagation()}>
+            <div className="success-icon-large">
+              <svg viewBox="0 0 24 24" width="80" height="80" fill="none" stroke="#087b36" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="16 9 10.5 15 8 12.5" />
+              </svg>
+            </div>
+            <h2 className="success-message-large">Updated Successfully</h2>
+            <button className="success-ok-btn-large" onClick={handleCloseUpdateSuccessPopup}>
+              Ok
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

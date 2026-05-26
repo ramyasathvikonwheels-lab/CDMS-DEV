@@ -17,6 +17,9 @@ function OnboardLawFirm({ onCancel }: OnboardLawFirmProps) {
     specializations: [] as string[]
   })
 
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false)
+  const [successMessage, setSuccessMessage] = useState('')
+
   const specializations = ['Civil', 'Commercial', 'Arbitration', 'Criminal']
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -36,14 +39,49 @@ function OnboardLawFirm({ onCancel }: OnboardLawFirmProps) {
     }))
   }
 
+  const validateForm = () => {
+    if (!formData.firstName.trim()) return false
+    if (!formData.registrationNo.trim()) return false
+    if (!formData.email.trim()) return false
+    if (!formData.contactPhone.trim()) return false
+    if (formData.specializations.length === 0) return false
+    return true
+  }
+
   const handleCreateFirm = () => {
-    console.log('Creating law firm:', formData)
+    if (validateForm()) {
+      console.log('Creating law firm:', formData)
+      setSuccessMessage('Create Law Firm Success!')
+      setShowSuccessPopup(true)
+      setFormData({
+        firstName: '',
+        registrationNo: '',
+        email: '',
+        contactPhone: '',
+        country: '',
+        city: '',
+        address: '',
+        specializations: []
+      })
+    }
+  }
+
+  const handleCloseSuccessPopup = () => {
+    setShowSuccessPopup(false)
+    setSuccessMessage('')
   }
 
   const handleCancel = () => {
-    if (onCancel) {
-      onCancel()
-    }
+    setFormData({
+      firstName: '',
+      registrationNo: '',
+      email: '',
+      contactPhone: '',
+      country: '',
+      city: '',
+      address: '',
+      specializations: []
+    })
   }
 
   return (
@@ -193,6 +231,23 @@ function OnboardLawFirm({ onCancel }: OnboardLawFirmProps) {
           </div>
         </div>
       </div>
+
+      {showSuccessPopup && (
+        <div className="success-overlay" onClick={handleCloseSuccessPopup}>
+          <div className="success-popup" onClick={(e) => e.stopPropagation()}>
+            <div className="success-icon">
+              <svg viewBox="0 0 24 24" width="80" height="80" fill="none" stroke="#087b36" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="16 9 10.5 15 8 12.5" />
+              </svg>
+            </div>
+            <h2 className="success-message">{successMessage}</h2>
+            <button className="success-ok-btn" onClick={handleCloseSuccessPopup}>
+              Ok
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

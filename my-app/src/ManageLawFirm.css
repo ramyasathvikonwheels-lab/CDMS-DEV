@@ -385,3 +385,287 @@
     flex-wrap: wrap;
   }
 }
+
+.law-firm-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.law-firm-popup-content {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: 632px;
+  height: 641px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.law-firm-popup-header {
+  background-color: #087b36;
+  color: white;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.law-firm-popup-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.law-firm-popup-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.law-firm-popup-close-btn:hover {
+  opacity: 0.8;
+}
+
+.law-firm-popup-close-btn:active {
+  transform: scale(0.95);
+}
+
+.law-firm-popup-body {
+  padding: 16px 22px;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.law-firm-name-display {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #222;
+}
+
+.law-firm-form {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.law-firm-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 20px;
+  margin-bottom: 12px;
+}
+
+.law-firm-form-row.full-width {
+  grid-template-columns: 1fr;
+}
+
+.law-firm-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.law-firm-form-field label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+}
+
+.law-firm-form-field input,
+.law-firm-form-field textarea {
+  width: 280px;
+  height: 34px;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  background-color: #fafafa;
+  box-sizing: border-box;
+}
+
+.law-firm-form-field textarea {
+  height: auto;
+  min-height: 60px;
+  resize: none;
+}
+
+.law-firm-form-field input:focus,
+.law-firm-form-field textarea:focus {
+  outline: none;
+  border-color: #087b36;
+  box-shadow: 0 0 0 3px rgba(8, 123, 54, 0.1);
+}
+
+.law-firm-specialization-section {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.law-firm-specialization-section label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.law-firm-checkbox-group {
+  display: flex;
+  gap: 28px;
+  flex-wrap: nowrap;
+}
+
+.law-firm-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 11px;
+  color: #333;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.law-firm-checkbox-label input[type='checkbox'] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #999;
+  border-radius: 2px;
+  accent-color: #087b36;
+  flex-shrink: 0;
+}
+
+.law-firm-popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  padding-left: 22px;
+  padding-right: 22px;
+  padding-bottom: 12px;
+  border-top: 1px solid #e0e0e0;
+  flex-shrink: 0;
+  background-color: #fafafa;
+}
+
+.law-firm-cancel-btn,
+.law-firm-update-btn {
+  background-color: #e8e8e8;
+  color: #333;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.law-firm-cancel-btn:hover {
+  background-color: #d0d0d0;
+}
+
+.law-firm-cancel-btn:active {
+  transform: scale(0.98);
+}
+
+.law-firm-update-btn {
+  background-color: #087b36;
+  color: white;
+}
+
+.law-firm-update-btn:hover {
+  background-color: #065d2b;
+}
+
+.law-firm-update-btn:active {
+  transform: scale(0.98);
+}
+
+.law-firm-success-popup {
+  background-color: white;
+  border-radius: 12px;
+  padding: 50px 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.law-firm-success-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.law-firm-success-icon svg {
+  width: 80px;
+  height: 80px;
+}
+
+.law-firm-success-message {
+  font-size: 28px;
+  font-weight: 600;
+  color: #087b36;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.law-firm-success-ok-btn {
+  background-color: #087b36;
+  color: white;
+  border: none;
+  padding: 12px 40px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 140px;
+  margin-top: 10px;
+}
+
+.law-firm-success-ok-btn:hover {
+  background-color: #065d2b;
+}
+
+.law-firm-success-ok-btn:active {
+  transform: scale(0.98);
+}

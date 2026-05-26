@@ -186,6 +186,228 @@
   transform: scale(0.98);
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  background-color: #087b36;
+  color: white;
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  opacity: 0.8;
+}
+
+.modal-close-btn:active {
+  transform: scale(0.95);
+}
+
+.modal-body {
+  padding: 30px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.modal-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+
+.modal-form-group:last-child {
+  margin-bottom: 0;
+}
+
+.modal-form-group label {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.modal-form-group input,
+.modal-form-group select {
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.modal-form-group input:focus,
+.modal-form-group select:focus {
+  outline: none;
+  border-color: #087b36;
+  box-shadow: 0 0 0 3px rgba(8, 123, 54, 0.1);
+}
+
+.modal-form-group select {
+  cursor: pointer;
+  background-color: white;
+  appearance: none;
+  padding-right: 36px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+  padding-right: 36px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 30px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.modal-cancel-btn,
+.modal-create-btn {
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  width: 114px;
+  height: 40px;
+}
+
+.modal-cancel-btn img,
+.modal-create-btn img {
+  width: 114px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.modal-cancel-btn:hover {
+  opacity: 0.8;
+}
+
+.modal-cancel-btn:active {
+  transform: scale(0.98);
+}
+
+.modal-create-btn:hover {
+  opacity: 0.8;
+}
+
+.modal-create-btn:active {
+  transform: scale(0.98);
+}
+
+.success-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.success-popup {
+  background-color: white;
+  border-radius: 12px;
+  padding: 60px 40px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+}
+
+.success-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.success-icon svg {
+  width: 80px;
+  height: 80px;
+}
+
+.success-message {
+  font-size: 32px;
+  font-weight: 600;
+  color: #087b36;
+  margin: 0 0 40px 0;
+  line-height: 1.4;
+}
+
+.success-ok-btn {
+  background-color: #087b36;
+  color: white;
+  border: none;
+  padding: 12px 40px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.success-ok-btn:hover {
+  background-color: #065d2b;
+}
+
+.success-ok-btn:active {
+  transform: scale(0.98);
+}
+
 @media (max-width: 1200px) {
   .form-row {
     grid-template-columns: repeat(2, 1fr);
