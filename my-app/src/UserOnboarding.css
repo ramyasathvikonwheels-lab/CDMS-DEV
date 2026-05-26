@@ -143,26 +143,29 @@
 
 .cancel-btn,
 .create-btn {
-  padding: 12px 28px;
   border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  padding: 0;
+  background: none;
+}
+
+.cancel-btn img,
+.create-btn img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
 }
 
 .cancel-btn {
-  background-color: #f0f0f0;
-  color: #666;
+  background-color: transparent;
 }
 
 .cancel-btn:hover {
-  background-color: #e8e8e8;
-  color: #333;
+  opacity: 0.8;
 }
 
 .cancel-btn:active {
@@ -170,12 +173,11 @@
 }
 
 .create-btn {
-  background-color: #087b36;
-  color: white;
+  background-color: transparent;
 }
 
 .create-btn:hover {
-  background-color: #065a2a;
+  opacity: 0.8;
 }
 
 .create-btn:active {
