@@ -4,11 +4,14 @@ import './Sidebar.css'
 interface SidebarProps {
   isOpen: boolean
   onLogout?: () => void
+  onNavigate?: (view: 'dashboard' | 'onboard-user' | 'manage-user' | 'onboard-firm' | 'manage-firm' | 'logout') => void
+  activeItem?: string
 }
 
-function Sidebar({ isOpen, onLogout }: SidebarProps) {
+function Sidebar({ isOpen, onNavigate, activeItem: activeItemProp }: SidebarProps) {
   const [activeItem, setActiveItem] = useState('dashboard')
   const [tooltipItem, setTooltipItem] = useState<string | null>(null)
+  const displayActiveItem = activeItemProp || activeItem
 
   const menuItems = [
     { icon: '/Dashboard.png', label: 'Dashboard', id: 'dashboard' },
@@ -20,10 +23,9 @@ function Sidebar({ isOpen, onLogout }: SidebarProps) {
   ]
 
   const handleItemClick = (id: string) => {
-    if (id === 'logout' && onLogout) {
-      onLogout()
-    } else {
-      setActiveItem(id)
+    setActiveItem(id)
+    if (onNavigate) {
+      onNavigate(id as 'dashboard' | 'onboard-user' | 'manage-user' | 'onboard-firm' | 'manage-firm' | 'logout')
     }
   }
 
@@ -33,7 +35,7 @@ function Sidebar({ isOpen, onLogout }: SidebarProps) {
         {menuItems.map((item) => (
           <div key={item.id} className="nav-item-wrapper">
             <button
-              className={`nav-item ${activeItem === item.id ? 'active' : ''}`}
+              className={`nav-item ${displayActiveItem === item.id ? 'active' : ''}`}
               onClick={() => handleItemClick(item.id)}
               onMouseEnter={() => setTooltipItem(item.id)}
               onMouseLeave={() => setTooltipItem(null)}
