@@ -184,6 +184,7 @@ function ManageUser() {
             <div className="search-bar">
               <input
                 type="text"
+                placeholder="Search"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -195,14 +196,14 @@ function ManageUser() {
                 className={userType === 'user' ? 'type-btn active' : 'type-btn'}
                 onClick={() => setUserType('user')}
               >
-                <img src="/User Button.png" alt="User" />
+                User
               </button>
               <button
                 data-button-type="evp"
                 className={userType === 'evp' ? 'type-btn active' : 'type-btn'}
                 onClick={() => setUserType('evp')}
               >
-                <img src="/EVP Button.png" alt="EVP" />
+                EVP
               </button>
             </div>
           </div>
@@ -432,12 +433,8 @@ function ManageUser() {
               </div>
 
               <div className="edit-actions">
-                <button className="cancel-btn-text" onClick={handleCloseEditPopup}>
-                  ✕ Cancel
-                </button>
-                <button className="update-btn" onClick={handleUpdateUser}>
-                  ✓ Update
-                </button>
+                <button className="cancel-btn-text" onClick={handleCloseEditPopup}></button>
+                <button className="update-btn" onClick={handleUpdateUser}></button>
               </div>
             </div>
           </div>
