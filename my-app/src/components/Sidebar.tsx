@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import './Sidebar.css'
 
 interface SidebarProps {
@@ -8,10 +8,17 @@ interface SidebarProps {
   activeItem?: string
 }
 
+interface TooltipPos {
+  top: number
+  left: number
+}
+
 function Sidebar({ isOpen, onNavigate, activeItem: activeItemProp }: SidebarProps) {
   const [activeItem, setActiveItem] = useState('dashboard')
   const [tooltipItem, setTooltipItem] = useState<string | null>(null)
+  const [tooltipPos, setTooltipPos] = useState<TooltipPos | null>(null)
   const displayActiveItem = activeItemProp || activeItem
+  const buttonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({})
 
   const menuItems = [
     { icon: '/Dashboard.png', label: 'Dashboard', id: 'dashboard' },
@@ -29,26 +36,54 @@ function Sidebar({ isOpen, onNavigate, activeItem: activeItemProp }: SidebarProp
     }
   }
 
+  const handleMouseEnter = (id: string) => {
+    setTooltipItem(id)
+    const button = buttonRefs.current[id]
+    if (button) {
+      const rect = button.getBoundingClientRect()
+      setTooltipPos({
+        top: rect.top + rect.height / 2,
+        left: rect.left + rect.width + 10
+      })
+    }
+  }
+
+  const handleMouseLeave = () => {
+    setTooltipItem(null)
+    setTooltipPos(null)
+  }
+
   return (
     <aside className={`sidebar ${isOpen ? 'open' : 'collapsed'}`}>
       <nav className="sidebar-nav">
         {menuItems.map((item) => (
           <div key={item.id} className="nav-item-wrapper">
             <button
+              ref={(el) => {
+                if (el) buttonRefs.current[item.id] = el
+              }}
               className={`nav-item ${displayActiveItem === item.id ? 'active' : ''}`}
               onClick={() => handleItemClick(item.id)}
-              onMouseEnter={() => setTooltipItem(item.id)}
-              onMouseLeave={() => setTooltipItem(null)}
+              onMouseEnter={() => handleMouseEnter(item.id)}
+              onMouseLeave={handleMouseLeave}
             >
               <img src={item.icon} alt={item.label} className="nav-icon" />
               <span className="nav-label">{item.label}</span>
             </button>
-            {tooltipItem === item.id && (
-              <div className="tooltip">{item.label}</div>
-            )}
           </div>
         ))}
       </nav>
+      {tooltipItem && tooltipPos && (
+        <div
+          className="tooltip"
+          style={{
+            top: `${tooltipPos.top}px`,
+            left: `${tooltipPos.left}px`
+          }}
+        >
+          {menuItems.find(item => item.id === tooltipItem)?.label}
+        </div>
+      )}
     </aside>
   )
 }
