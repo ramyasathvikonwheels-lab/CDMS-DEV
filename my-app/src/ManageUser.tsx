@@ -191,12 +191,14 @@ function ManageUser() {
 
             <div className="type-buttons">
               <button
+                data-button-type="user"
                 className={userType === 'user' ? 'type-btn active' : 'type-btn'}
                 onClick={() => setUserType('user')}
               >
                 <img src="/User Button.png" alt="User" />
               </button>
               <button
+                data-button-type="evp"
                 className={userType === 'evp' ? 'type-btn active' : 'type-btn'}
                 onClick={() => setUserType('evp')}
               >
