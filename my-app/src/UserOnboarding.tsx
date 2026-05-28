@@ -1,11 +1,7 @@
 import { useState } from 'react'
 import './UserOnboarding.css'
 
-interface UserOnboardingProps {
-  onCancel?: () => void
-}
-
-function UserOnboarding({ onCancel }: UserOnboardingProps) {
+function UserOnboarding() {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',

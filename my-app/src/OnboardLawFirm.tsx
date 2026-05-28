@@ -1,11 +1,7 @@
 import { useState } from 'react'
 import './OnboardLawFirm.css'
 
-interface OnboardLawFirmProps {
-  onCancel?: () => void
-}
-
-function OnboardLawFirm({ onCancel }: OnboardLawFirmProps) {
+function OnboardLawFirm() {
   const [formData, setFormData] = useState({
     firstName: '',
     registrationNo: '',

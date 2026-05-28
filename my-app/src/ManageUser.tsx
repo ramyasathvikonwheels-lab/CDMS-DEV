@@ -10,6 +10,12 @@ interface User {
   status: 'Active' | 'Inactive'
 }
 
+interface EVP {
+  id: string
+  department: string
+  email: string
+}
+
 function ManageUser() {
   const [searchTerm, setSearchTerm] = useState('')
   const [userType, setUserType] = useState<'user' | 'evp'>('user')
@@ -28,6 +34,11 @@ function ManageUser() {
     userType: ''
   })
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [selectedEVP, setSelectedEVP] = useState<EVP | null>(null)
+  const [editingEVPId, setEditingEVPId] = useState<string | null>(null)
+  const [editingEVPEmail, setEditingEVPEmail] = useState('')
+
   const users: User[] = [
     { id: '1', name: 'Fazl ur Rahman', email: 'fazlurr@example.com', initials: 'FR', avatarColor: '#FFD700', status: 'Active' },
     { id: '2', name: 'John Doe', email: 'john@example.com', initials: 'JD', avatarColor: '#87CEEB', status: 'Inactive' },
@@ -43,9 +54,29 @@ function ManageUser() {
     { id: '12', name: 'Anouk Jansen', email: 'anouk@org.com', initials: 'AJ', avatarColor: '#FF69B4', status: 'Active' }
   ]
 
+  const evps: EVP[] = [
+    { id: '1', department: 'Dept / Legal Manager', email: 'john@example.com' },
+    { id: '2', department: 'Dept / Contracts Management', email: 'jane@example.com' },
+    { id: '3', department: 'Dept / Finance', email: 'bob@example.com' },
+    { id: '4', department: 'Dept / Operations', email: 'alice@example.com' },
+    { id: '5', department: 'Dept / Contracts Management', email: 'charlie@example.com' },
+    { id: '6', department: 'Dept / Contracts Management', email: 'diana@example.com' },
+    { id: '7', department: 'Dept / Finance', email: 'eve@example.com' },
+    { id: '8', department: 'Dept / Operations', email: 'frank@example.com' },
+    { id: '9', department: 'Dept / Legal Manager', email: 'grace@example.com' },
+    { id: '10', department: 'Dept / Contracts Management', email: 'henry@example.com' },
+    { id: '11', department: 'Dept / Finance', email: 'iris@example.com' },
+    { id: '12', department: 'Dept / Operations', email: 'jack@example.com' }
+  ]
+
   const filteredUsers = users.filter(user =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
+  const filteredEVPs = evps.filter(evp =>
+    evp.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    evp.email.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
   const handleViewClick = (user: User) => {
@@ -104,16 +135,46 @@ function ManageUser() {
     setShowUpdateSuccessPopup(false)
   }
 
+  const handleDeleteEVP = () => {
+    console.log('Deleting EVP:', selectedEVP)
+    setShowDeleteModal(false)
+    setSelectedEVP(null)
+  }
+
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false)
+    setSelectedEVP(null)
+  }
+
+  const handleEditEVPClick = (evp: EVP) => {
+    setEditingEVPId(evp.id)
+    setEditingEVPEmail(evp.email)
+  }
+
+  const handleSaveEVPEmail = (evpId: string) => {
+    const updatedEVP = evps.find(e => e.id === evpId)
+    if (updatedEVP) {
+      updatedEVP.email = editingEVPEmail
+      console.log('Updated EVP email:', updatedEVP)
+    }
+    setEditingEVPId(null)
+    setEditingEVPEmail('')
+  }
+
+  const handleEVPEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditingEVPEmail(e.target.value)
+  }
+
   return (
     <div className="manage-user">
       <div className="manage-user-header-section">
         <div className="manage-user-header">
           <div>
-            <h1>Edit User List</h1>
+            <h1>{userType === 'user' ? 'Edit User List' : 'Edit EVP List'}</h1>
             <div className="breadcrumb">
               <span>Home</span>
               <span className="breadcrumb-separator">|</span>
-              <span>Edit User List</span>
+              <span>{userType === 'user' ? 'Edit User List' : 'Edit EVP List'}</span>
             </div>
           </div>
         </div>
@@ -130,16 +191,14 @@ function ManageUser() {
 
             <div className="type-buttons">
               <button
-                className={`type-btn ${userType === 'user' ? 'active' : ''}`}
+                className={userType === 'user' ? 'type-btn active' : 'type-btn'}
                 onClick={() => setUserType('user')}
-                title="User"
               >
                 <img src="/User Button.png" alt="User" />
               </button>
               <button
-                className={`type-btn ${userType === 'evp' ? 'active' : ''}`}
+                className={userType === 'evp' ? 'type-btn active' : 'type-btn'}
                 onClick={() => setUserType('evp')}
-                title="EVP"
               >
                 <img src="/EVP Button.png" alt="EVP" />
               </button>
@@ -149,7 +208,7 @@ function ManageUser() {
       </div>
 
       <div className="users-grid">
-        {filteredUsers.map((user) => (
+        {userType === 'user' && filteredUsers.map((user) => (
           <div key={user.id} className="user-card">
             <div className="user-card-content">
               <div className="user-avatar" style={{ backgroundColor: user.avatarColor }}>
@@ -171,6 +230,44 @@ function ManageUser() {
               </button>
               <button className="action-btn" title="Edit" onClick={() => handleEditClick(user)}>
                 <img src="/Edit Icon.png" alt="Edit" />
+              </button>
+            </div>
+          </div>
+        ))}
+        {userType === 'evp' && filteredEVPs.map((evp) => (
+          <div key={evp.id} className="evp-card">
+            <div className="evp-card-header">
+              <h3>{evp.department}</h3>
+            </div>
+            {editingEVPId === evp.id ? (
+              <div className="evp-card-edit-mode">
+                <input
+                  type="email"
+                  value={editingEVPEmail}
+                  onChange={handleEVPEmailChange}
+                  className="evp-email-input"
+                  autoFocus
+                />
+                <button
+                  className="evp-checkmark-btn"
+                  title="Save"
+                  onClick={() => handleSaveEVPEmail(evp.id)}
+                >
+                  ✓
+                </button>
+              </div>
+            ) : (
+              <div className="evp-card-email">{evp.email}</div>
+            )}
+            <div className="evp-card-actions">
+              <button className="evp-action-btn" title="Edit" onClick={() => handleEditEVPClick(evp)}>
+                <img src="/Edit Icon.png" alt="Edit" />
+              </button>
+              <button className="evp-action-btn" title="Delete" onClick={() => {
+                setSelectedEVP(evp)
+                setShowDeleteModal(true)
+              }}>
+                <img src="/Delete Icon.png" alt="Delete" />
               </button>
             </div>
           </div>
@@ -358,6 +455,30 @@ function ManageUser() {
             <button className="success-ok-btn-large" onClick={handleCloseUpdateSuccessPopup}>
               Ok
             </button>
+          </div>
+        </div>
+      )}
+
+      {showDeleteModal && selectedEVP && (
+        <div className="popup-overlay" onClick={handleCloseDeleteModal}>
+          <div className="delete-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="delete-modal-icon">
+              <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="#d32f2f" strokeWidth="2">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="15" y1="9" x2="9" y2="15" />
+                <line x1="9" y1="9" x2="15" y2="15" />
+              </svg>
+            </div>
+            <h2 className="delete-modal-title">Confirm Delete</h2>
+            <p className="delete-modal-message">Are you sure you want to delete this EVP?</p>
+            <div className="delete-modal-actions">
+              <button className="delete-cancel-btn" onClick={handleCloseDeleteModal}>
+                Cancel
+              </button>
+              <button className="delete-confirm-btn" onClick={handleDeleteEVP}>
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       )}
