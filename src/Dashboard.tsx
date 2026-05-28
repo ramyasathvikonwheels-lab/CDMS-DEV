@@ -46,10 +46,6 @@ function Dashboard({ onLogout }: DashboardProps) {
     }
   }
 
-  const handleBackToDashboard = () => {
-    setCurrentView('dashboard')
-  }
-
   return (
     <div className="dashboard">
       <Sidebar
@@ -88,13 +84,13 @@ function Dashboard({ onLogout }: DashboardProps) {
           </div>
         )}
         {currentView === 'onboard-user' && (
-          <UserOnboarding onCancel={handleBackToDashboard} />
+          <UserOnboarding />
         )}
         {currentView === 'manage-user' && (
           <ManageUser />
         )}
         {currentView === 'onboard-firm' && (
-          <OnboardLawFirm onCancel={handleBackToDashboard} />
+          <OnboardLawFirm />
         )}
         {currentView === 'manage-firm' && (
           <ManageLawFirm />

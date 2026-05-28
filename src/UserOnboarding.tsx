@@ -1,11 +1,7 @@
 import { useState } from 'react'
 import './UserOnboarding.css'
 
-interface UserOnboardingProps {
-  onCancel?: () => void
-}
-
-function UserOnboarding({ onCancel }: UserOnboardingProps) {
+function UserOnboarding() {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -13,6 +9,15 @@ function UserOnboarding({ onCancel }: UserOnboardingProps) {
     userType: '',
     role: ''
   })
+
+  const [showEVPModal, setShowEVPModal] = useState(false)
+  const [evpData, setEvpData] = useState({
+    department: '',
+    email: ''
+  })
+
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false)
+  const [successMessage, setSuccessMessage] = useState('')
 
   const userTypeOptions = [
     { value: '', label: '-- Select --' },
@@ -37,15 +42,76 @@ function UserOnboarding({ onCancel }: UserOnboardingProps) {
     }))
   }
 
+  const validateForm = () => {
+    if (!formData.firstName.trim()) return false
+    if (!formData.lastName.trim()) return false
+    if (!formData.email.trim()) return false
+    if (!formData.userType) return false
+    if (!formData.role) return false
+    return true
+  }
+
   const handleCreate = () => {
-    console.log('Creating user:', formData)
-    // Handle form submission
+    if (validateForm()) {
+      console.log('Creating user:', formData)
+      setSuccessMessage('Create User Success!')
+      setShowSuccessPopup(true)
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        userType: '',
+        role: ''
+      })
+    }
   }
 
   const handleCancel = () => {
-    if (onCancel) {
-      onCancel()
+    setFormData({
+      firstName: '',
+      lastName: '',
+      email: '',
+      userType: '',
+      role: ''
+    })
+  }
+
+  const handleCreateEVPClick = () => {
+    setShowEVPModal(true)
+  }
+
+  const handleCloseEVPModal = () => {
+    setShowEVPModal(false)
+    setEvpData({ department: '', email: '' })
+  }
+
+  const handleEVPInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target
+    setEvpData((prev) => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const validateEVPForm = () => {
+    if (!evpData.department.trim()) return false
+    if (!evpData.email.trim()) return false
+    return true
+  }
+
+  const handleCreateEVP = () => {
+    if (validateEVPForm()) {
+      console.log('Creating EVP:', evpData)
+      handleCloseEVPModal()
+      setSuccessMessage('Create EVP Success!')
+      setShowSuccessPopup(true)
+      setEvpData({ department: '', email: '' })
     }
+  }
+
+  const handleCloseSuccessPopup = () => {
+    setShowSuccessPopup(false)
+    setSuccessMessage('')
   }
 
   return (
@@ -59,7 +125,7 @@ function UserOnboarding({ onCancel }: UserOnboardingProps) {
             <span>Onboarding</span>
           </div>
         </div>
-        <button className="create-evp-btn">+ Create EVP</button>
+        <button className="create-evp-btn" onClick={handleCreateEVPClick}>+ Create EVP</button>
       </div>
 
       <div className="onboarding-card">
@@ -152,14 +218,87 @@ function UserOnboarding({ onCancel }: UserOnboardingProps) {
 
           <div className="form-actions">
             <button className="cancel-btn" onClick={handleCancel}>
-              ⊗ Cancel
+              <img src="/Cancel Button.png" alt="Cancel" />
             </button>
             <button className="create-btn" onClick={handleCreate}>
-              ✓ Create
+              <img src="/Create Button.png" alt="Create" />
             </button>
           </div>
         </div>
       </div>
+
+      {showEVPModal && (
+        <div className="modal-overlay" onClick={handleCloseEVPModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>EVP</h2>
+              <button className="modal-close-btn" onClick={handleCloseEVPModal}>
+                ✕
+              </button>
+            </div>
+
+            <div className="modal-body">
+              <div className="modal-form-group">
+                <label htmlFor="department">
+                  Department <span className="required">*</span>
+                </label>
+                <select
+                  id="department"
+                  name="department"
+                  value={evpData.department}
+                  onChange={handleEVPInputChange}
+                >
+                  <option value="">-- Select --</option>
+                  <option value="sales">Sales</option>
+                  <option value="marketing">Marketing</option>
+                  <option value="hr">HR</option>
+                  <option value="operations">Operations</option>
+                </select>
+              </div>
+
+              <div className="modal-form-group">
+                <label htmlFor="evp-email">
+                  Email <span className="required">*</span>
+                </label>
+                <input
+                  type="email"
+                  id="evp-email"
+                  name="email"
+                  value={evpData.email}
+                  onChange={handleEVPInputChange}
+                  placeholder=""
+                />
+              </div>
+            </div>
+
+            <div className="modal-footer">
+              <button className="modal-cancel-btn" onClick={handleCloseEVPModal}>
+                <img src="/Cancel Button.png" alt="Cancel" />
+              </button>
+              <button className="modal-create-btn" onClick={handleCreateEVP}>
+                <img src="/Create Button.png" alt="Create" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showSuccessPopup && (
+        <div className="success-overlay" onClick={handleCloseSuccessPopup}>
+          <div className="success-popup" onClick={(e) => e.stopPropagation()}>
+            <div className="success-icon">
+              <svg viewBox="0 0 24 24" width="80" height="80" fill="none" stroke="#087b36" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="16 9 10.5 15 8 12.5" />
+              </svg>
+            </div>
+            <h2 className="success-message">{successMessage}</h2>
+            <button className="success-ok-btn" onClick={handleCloseSuccessPopup}>
+              Ok
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
