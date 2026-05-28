@@ -84,16 +84,16 @@ function Dashboard({ onLogout }: DashboardProps) {
           </div>
         )}
         {currentView === 'onboard-user' && (
-          <UserOnboarding />
+          <UserOnboarding onNavigateToDashboard={() => setCurrentView('dashboard')} />
         )}
         {currentView === 'manage-user' && (
-          <ManageUser />
+          <ManageUser onNavigateToDashboard={() => setCurrentView('dashboard')} />
         )}
         {currentView === 'onboard-firm' && (
-          <OnboardLawFirm />
+          <OnboardLawFirm onNavigateToDashboard={() => setCurrentView('dashboard')} />
         )}
         {currentView === 'manage-firm' && (
-          <ManageLawFirm />
+          <ManageLawFirm onNavigateToDashboard={() => setCurrentView('dashboard')} />
         )}
       </div>
     </div>

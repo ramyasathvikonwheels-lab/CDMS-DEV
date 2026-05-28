@@ -16,7 +16,11 @@ interface EVP {
   email: string
 }
 
-function ManageUser() {
+interface ManageUserProps {
+  onNavigateToDashboard?: () => void
+}
+
+function ManageUser({ onNavigateToDashboard }: ManageUserProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const [userType, setUserType] = useState<'user' | 'evp'>('user')
   const [currentPage] = useState(1)
@@ -172,7 +176,7 @@ function ManageUser() {
           <div>
             <h1>{userType === 'user' ? 'Edit User List' : 'Edit EVP List'}</h1>
             <div className="breadcrumb">
-              <span>Home</span>
+              <button className="breadcrumb-home" onClick={onNavigateToDashboard}>Home</button>
               <span className="breadcrumb-separator">|</span>
               <span>{userType === 'user' ? 'Edit User List' : 'Edit EVP List'}</span>
             </div>

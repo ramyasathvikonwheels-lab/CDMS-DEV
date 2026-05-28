@@ -1,7 +1,11 @@
 import { useState } from 'react'
 import './OnboardLawFirm.css'
 
-function OnboardLawFirm() {
+interface OnboardLawFirmProps {
+  onNavigateToDashboard?: () => void
+}
+
+function OnboardLawFirm({ onNavigateToDashboard }: OnboardLawFirmProps) {
   const [formData, setFormData] = useState({
     firstName: '',
     registrationNo: '',
@@ -89,7 +93,7 @@ function OnboardLawFirm() {
         <div>
           <h1>Law Firm Onboarding</h1>
           <div className="breadcrumb">
-            <span>Home</span>
+            <button className="breadcrumb-home" onClick={onNavigateToDashboard}>Home</button>
             <span className="breadcrumb-separator">|</span>
             <span>Law Firm Onboarding</span>
           </div>

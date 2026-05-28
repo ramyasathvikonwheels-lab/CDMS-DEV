@@ -9,7 +9,11 @@ interface LawFirm {
   specialization: string
 }
 
-function ManageLawFirm() {
+interface ManageLawFirmProps {
+  onNavigateToDashboard?: () => void
+}
+
+function ManageLawFirm({ onNavigateToDashboard }: ManageLawFirmProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const [registrationFilter, setRegistrationFilter] = useState('')
   const [specializationFilter, setSpecializationFilter] = useState('')
@@ -157,7 +161,7 @@ function ManageLawFirm() {
           <div>
             <h1>Edit Law Firm List</h1>
             <div className="breadcrumb">
-              <span>Home</span>
+              <button className="breadcrumb-home" onClick={onNavigateToDashboard}>Home</button>
               <span className="breadcrumb-separator">|</span>
               <span>Edit Law Firm List</span>
             </div>

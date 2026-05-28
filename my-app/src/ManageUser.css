@@ -30,6 +30,29 @@
   margin-top: 8px;
   font-size: 14px;
   color: #888;
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-home {
+  background: none;
+  border: none;
+  color: #087b36;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  text-decoration: none;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.breadcrumb-home:hover {
+  color: #065a2a;
+  text-decoration: underline;
+}
+
+.breadcrumb-home:active {
+  transform: scale(0.98);
 }
 
 .breadcrumb-separator {

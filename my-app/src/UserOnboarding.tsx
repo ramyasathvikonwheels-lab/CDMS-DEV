@@ -1,7 +1,11 @@
 import { useState } from 'react'
 import './UserOnboarding.css'
 
-function UserOnboarding() {
+interface UserOnboardingProps {
+  onNavigateToDashboard?: () => void
+}
+
+function UserOnboarding({ onNavigateToDashboard }: UserOnboardingProps) {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -123,7 +127,7 @@ function UserOnboarding() {
         <div>
           <h1>Onboarding Screen (Create User / EVP)</h1>
           <div className="breadcrumb">
-            <span>Home</span>
+            <button className="breadcrumb-home" onClick={onNavigateToDashboard}>Home</button>
             <span className="breadcrumb-separator">|</span>
             <span>Onboarding</span>
           </div>
