@@ -30,6 +30,29 @@
   margin-top: 8px;
   font-size: 14px;
   color: #888;
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-home {
+  background: none;
+  border: none;
+  color: #087b36;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  text-decoration: none;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.breadcrumb-home:hover {
+  color: #065a2a;
+  text-decoration: underline;
+}
+
+.breadcrumb-home:active {
+  transform: scale(0.98);
 }
 
 .breadcrumb-separator {
@@ -55,10 +78,11 @@
   position: relative;
   width: 253px;
   height: 32px;
-  background-image: url('/Search.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  display: flex;
+  align-items: center;
 }
 
 .search-bar input {
@@ -70,6 +94,11 @@
   font-size: 14px;
   box-sizing: border-box;
   outline: none;
+}
+
+.search-bar input::placeholder {
+  color: #999;
+  opacity: 0.7;
 }
 
 .search-bar input:focus {
@@ -536,31 +565,37 @@
 
 .law-firm-checkbox-group {
   display: flex;
-  gap: 28px;
+  gap: 32px;
   flex-wrap: nowrap;
+  align-items: flex-start;
+  padding-top: 2px;
 }
 
 .law-firm-checkbox-label {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 12px;
   color: #333;
   user-select: none;
   white-space: nowrap;
+  line-height: 15px;
+  margin: 0;
+  padding: 0;
 }
 
 .law-firm-checkbox-label input[type='checkbox'] {
   width: 14px;
   height: 14px;
   cursor: pointer;
-  margin: 0;
+  margin: 0 12px 0 0 !important;
   padding: 0;
   border: 1px solid #999;
   border-radius: 2px;
   accent-color: #087b36;
   flex-shrink: 0;
+  vertical-align: middle;
 }
 
 .law-firm-popup-actions {
@@ -667,5 +702,96 @@
 }
 
 .law-firm-success-ok-btn:active {
+  transform: scale(0.98);
+}
+
+.law-firm-delete-popup {
+  background-color: white;
+  border-radius: 12px;
+  padding: 40px 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  max-width: 450px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.law-firm-delete-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.law-firm-delete-icon svg {
+  width: 60px;
+  height: 60px;
+}
+
+.law-firm-delete-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #222;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.law-firm-delete-message {
+  font-size: 14px;
+  color: #666;
+  margin: 8px 0 0 0;
+  line-height: 1.5;
+}
+
+.law-firm-delete-message strong {
+  color: #222;
+  font-weight: 600;
+}
+
+.law-firm-delete-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  width: 100%;
+  justify-content: center;
+}
+
+.law-firm-delete-cancel-btn,
+.law-firm-delete-confirm-btn {
+  padding: 10px 28px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 110px;
+}
+
+.law-firm-delete-cancel-btn {
+  background-color: #e8e8e8;
+  color: #333;
+}
+
+.law-firm-delete-cancel-btn:hover {
+  background-color: #d0d0d0;
+}
+
+.law-firm-delete-cancel-btn:active {
+  transform: scale(0.98);
+}
+
+.law-firm-delete-confirm-btn {
+  background-color: #d32f2f;
+  color: white;
+}
+
+.law-firm-delete-confirm-btn:hover {
+  background-color: #b71c1c;
+}
+
+.law-firm-delete-confirm-btn:active {
   transform: scale(0.98);
 }

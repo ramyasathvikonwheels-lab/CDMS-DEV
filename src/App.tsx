@@ -1,14 +1,19 @@
 import { useState } from 'react'
 import LandingPage from './LandingPage'
 import Dashboard from './Dashboard'
+import InitiatorDashboard from './InitiatorDashboard'
 
-type Page = 'landing' | 'dashboard'
+type Page = 'landing' | 'admin-dashboard' | 'initiator-dashboard'
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('landing')
 
-  const handleNavigateToDashboard = () => {
-    setCurrentPage('dashboard')
+  const handleNavigateToDashboard = (role: 'admin' | 'initiator') => {
+    if (role === 'admin') {
+      setCurrentPage('admin-dashboard')
+    } else {
+      setCurrentPage('initiator-dashboard')
+    }
   }
 
   const handleLogout = () => {
@@ -20,8 +25,11 @@ function App() {
       {currentPage === 'landing' && (
         <LandingPage onGetStarted={handleNavigateToDashboard} />
       )}
-      {currentPage === 'dashboard' && (
+      {currentPage === 'admin-dashboard' && (
         <Dashboard onLogout={handleLogout} />
+      )}
+      {currentPage === 'initiator-dashboard' && (
+        <InitiatorDashboard onLogout={handleLogout} />
       )}
     </>
   )

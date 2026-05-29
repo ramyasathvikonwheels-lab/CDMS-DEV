@@ -30,6 +30,29 @@
   margin-top: 8px;
   font-size: 14px;
   color: #888;
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-home {
+  background: none;
+  border: none;
+  color: #087b36;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  text-decoration: none;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.breadcrumb-home:hover {
+  color: #065a2a;
+  text-decoration: underline;
+}
+
+.breadcrumb-home:active {
+  transform: scale(0.98);
 }
 
 .breadcrumb-separator {
@@ -54,10 +77,11 @@
   position: relative;
   width: 253px;
   height: 32px;
-  background-image: url('/Search.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  display: flex;
+  align-items: center;
 }
 
 .search-bar input {
@@ -69,6 +93,11 @@
   font-size: 14px;
   box-sizing: border-box;
   outline: none;
+}
+
+.search-bar input::placeholder {
+  color: #999;
+  opacity: 0.7;
 }
 
 .search-bar input:focus {
@@ -92,8 +121,9 @@
   justify-content: center;
   border: none;
   background-color: #EBEBEB;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 500;
+  font-family: Dubai;
   -webkit-appearance: none;
   appearance: none;
   box-shadow: none;
@@ -136,6 +166,7 @@
 .type-buttons .type-btn[data-button-type="user"]:not(.active) {
   background-color: #EBEBEB;
   border: none;
+  color: #087B36;
 }
 
 /* EVP button active - green background */
@@ -158,6 +189,7 @@
 .type-buttons .type-btn[data-button-type="evp"]:not(.active) {
   background-color: #EBEBEB;
   border: none;
+  color: #087B36;
 }
 
 @media (prefers-color-scheme: light) {
@@ -631,23 +663,25 @@
 }
 
 .cancel-btn-text {
-  background-color: #e8e8e8;
-  color: #333;
+  background-image: url('/Cancel Button.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
   border: none;
-  padding: 8px 18px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
+  padding: 0;
+  width: 119px;
+  height: 40px;
+  border-radius: 0;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
 }
 
 .cancel-btn-text:hover {
-  background-color: #d0d0d0;
+  opacity: 0.9;
 }
 
 .cancel-btn-text:active {
@@ -655,23 +689,25 @@
 }
 
 .update-btn {
-  background-color: #087b36;
-  color: white;
+  background-image: url('/Update button.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
   border: none;
-  padding: 8px 18px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
+  padding: 0;
+  width: 119px;
+  height: 40px;
+  border-radius: 0;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
 }
 
 .update-btn:hover {
-  background-color: #065d2b;
+  opacity: 0.9;
 }
 
 .update-btn:active {

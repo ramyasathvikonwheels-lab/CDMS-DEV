@@ -1,7 +1,11 @@
 import { useState } from 'react'
 import './UserOnboarding.css'
 
-function UserOnboarding() {
+interface UserOnboardingProps {
+  onNavigateToDashboard?: () => void
+}
+
+function UserOnboarding({ onNavigateToDashboard }: UserOnboardingProps) {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -18,6 +22,7 @@ function UserOnboarding() {
 
   const [showSuccessPopup, setShowSuccessPopup] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
+  const [showValidationWarning, setShowValidationWarning] = useState(false)
 
   const userTypeOptions = [
     { value: '', label: '-- Select --' },
@@ -63,6 +68,8 @@ function UserOnboarding() {
         userType: '',
         role: ''
       })
+    } else {
+      setShowValidationWarning(true)
     }
   }
 
@@ -120,7 +127,7 @@ function UserOnboarding() {
         <div>
           <h1>Onboarding Screen (Create User / EVP)</h1>
           <div className="breadcrumb">
-            <span>Home</span>
+            <button className="breadcrumb-home" onClick={onNavigateToDashboard}>Home</button>
             <span className="breadcrumb-separator">|</span>
             <span>Onboarding</span>
           </div>
@@ -294,6 +301,24 @@ function UserOnboarding() {
             </div>
             <h2 className="success-message">{successMessage}</h2>
             <button className="success-ok-btn" onClick={handleCloseSuccessPopup}>
+              Ok
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showValidationWarning && (
+        <div className="warning-overlay" onClick={() => setShowValidationWarning(false)}>
+          <div className="warning-popup" onClick={(e) => e.stopPropagation()}>
+            <div className="warning-icon">
+              <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="#d32f2f" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+            </div>
+            <h2 className="warning-message">Please fill all the mandatory fields</h2>
+            <button className="warning-ok-btn" onClick={() => setShowValidationWarning(false)}>
               Ok
             </button>
           </div>

@@ -9,7 +9,11 @@ interface LawFirm {
   specialization: string
 }
 
-function ManageLawFirm() {
+interface ManageLawFirmProps {
+  onNavigateToDashboard?: () => void
+}
+
+function ManageLawFirm({ onNavigateToDashboard }: ManageLawFirmProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const [registrationFilter, setRegistrationFilter] = useState('')
   const [specializationFilter, setSpecializationFilter] = useState('')
@@ -18,7 +22,9 @@ function ManageLawFirm() {
 
   const [showEditPopup, setShowEditPopup] = useState(false)
   const [showUpdateSuccessPopup, setShowUpdateSuccessPopup] = useState(false)
+  const [showDeleteConfirmPopup, setShowDeleteConfirmPopup] = useState(false)
   const [selectedFirm, setSelectedFirm] = useState<LawFirm | null>(null)
+  const [firmToDelete, setFirmToDelete] = useState<LawFirm | null>(null)
   const [editFormData, setEditFormData] = useState({
     firstName: '',
     registrationNo: '',
@@ -121,6 +127,24 @@ function ManageLawFirm() {
     setShowUpdateSuccessPopup(false)
   }
 
+  const handleDeleteClick = (firm: LawFirm) => {
+    setFirmToDelete(firm)
+    setShowDeleteConfirmPopup(true)
+  }
+
+  const handleConfirmDelete = () => {
+    if (firmToDelete) {
+      console.log('Deleting law firm:', firmToDelete)
+      setShowDeleteConfirmPopup(false)
+      setFirmToDelete(null)
+    }
+  }
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirmPopup(false)
+    setFirmToDelete(null)
+  }
+
   const filteredLawFirms = lawFirms.filter((firm) => {
     const matchesSearch = firm.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       firm.email.toLowerCase().includes(searchTerm.toLowerCase())
@@ -137,7 +161,7 @@ function ManageLawFirm() {
           <div>
             <h1>Edit Law Firm List</h1>
             <div className="breadcrumb">
-              <span>Home</span>
+              <button className="breadcrumb-home" onClick={onNavigateToDashboard}>Home</button>
               <span className="breadcrumb-separator">|</span>
               <span>Edit Law Firm List</span>
             </div>
@@ -149,6 +173,7 @@ function ManageLawFirm() {
             <div className="search-bar">
               <input
                 type="text"
+                placeholder="Search"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -222,11 +247,11 @@ function ManageLawFirm() {
               </div>
             </div>
             <div className="firm-actions">
-              <button className="action-btn" title="View">
-                <img src="/View Icon.png" alt="View" />
-              </button>
               <button className="action-btn" title="Edit" onClick={() => handleEditClick(firm)}>
                 <img src="/Edit Icon.png" alt="Edit" />
+              </button>
+              <button className="action-btn" title="Delete" onClick={() => handleDeleteClick(firm)}>
+                <img src="/Delete Icon.png" alt="Delete" />
               </button>
             </div>
           </div>
@@ -386,6 +411,31 @@ function ManageLawFirm() {
             <button className="law-firm-success-ok-btn" onClick={handleCloseUpdateSuccessPopup}>
               Ok
             </button>
+          </div>
+        </div>
+      )}
+
+      {showDeleteConfirmPopup && firmToDelete && (
+        <div className="law-firm-popup-overlay" onClick={handleCancelDelete}>
+          <div className="law-firm-delete-popup" onClick={(e) => e.stopPropagation()}>
+            <div className="law-firm-delete-icon">
+              <svg viewBox="0 0 24 24" width="60" height="60" fill="none" stroke="#d32f2f" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="8" y1="12" x2="16" y2="12" />
+              </svg>
+            </div>
+            <h2 className="law-firm-delete-title">Confirm Delete</h2>
+            <p className="law-firm-delete-message">
+              Are you sure you want to delete <strong>{firmToDelete.name}</strong>? This action cannot be undone.
+            </p>
+            <div className="law-firm-delete-actions">
+              <button className="law-firm-delete-cancel-btn" onClick={handleCancelDelete}>
+                Cancel
+              </button>
+              <button className="law-firm-delete-confirm-btn" onClick={handleConfirmDelete}>
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       )}

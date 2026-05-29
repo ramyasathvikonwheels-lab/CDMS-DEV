@@ -20,9 +20,11 @@ This document outlines the design and UI/UX of the Case & Dispute Management Sys
 ## Typography
 
 - **Font Family**: System UI, Avenir, Helvetica, Arial, sans-serif
+- **Button Font Family**: Dubai
 - **Headings**: 600 weight, varying sizes
 - **Body**: 400 weight, 14px default
 - **Small Text**: 12px for secondary information
+- **Button Labels**: Dubai font, 16px weight for User/EVP toggles
 
 ## Spacing & Layout
 
@@ -305,11 +307,102 @@ Grid layout:
 - Border: None
 - Border-radius: 6px
 - Font weight: 500
-- On click: Submits form (currently logs data)
+- On click: Submits form if validation passes, shows warning popup if not
+
+**Validation Warning Popup**
+- Appears when Create button clicked without filling mandatory fields
+- Modal overlay with semi-transparent background
+- White popup card centered on screen
+- Red warning icon (exclamation mark in circle)
+- Title: (Not shown, implicit from icon)
+- Message: "Please fill all the mandatory fields"
+- Action Button:
+  - Ok: Red button (#d32f2f), closes popup to allow user to complete form
 
 ---
 
-### 4. Manage User Screen
+### 4. Law Firm Onboarding Screen
+
+**Purpose**: Form for creating and onboarding new law firms into the system.
+
+**Layout**: Full page with sidebar and header
+
+**Screen Title Section**
+- **Title**: "Law Firm Onboarding"
+  - Font size: 28px
+  - Font weight: 600
+- **Breadcrumb**: "Home | Law Firm Onboarding"
+  - Font size: 14px
+  - Color: #888
+
+**Form Card**
+
+**Card Styling**:
+- Background: White
+- Padding: 40px
+- Border-radius: 12px
+- Box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05)
+
+**Form Section Header**
+- "Law Firm Information"
+- Font size: 18px
+- Font weight: 600
+- Margin-bottom: 24px
+
+**Form Fields Layout**
+- Desktop: 2 columns
+- Tablet: 2 columns
+- Mobile: 1 column
+- Gap: 24px between fields
+
+**Form Fields**:
+
+1. **Firm Name** (required) - Text input
+2. **Registration Number** (required) - Text input
+3. **Email** (required) - Email input
+4. **Contact Phone** (required) - Text input
+5. **Country** (optional) - Text input
+6. **City** (optional) - Text input
+7. **Address** (optional) - Textarea
+8. **Specialization** (required) - Multiple checkboxes
+   - Options: Civil, Commercial, Arbitration, Criminal
+   - Layout: Single line, all on one row
+   - Checkbox-to-text gap: 26px (ensures proper alignment)
+   - Text properly aligned vertically with checkboxes
+
+**Input Field Styling**
+- Padding: 8px 10px
+- Border: 1px solid #ddd
+- Border-radius: 4px
+- Font size: 12px
+- Focus state: Border #087B36, box-shadow with green tint
+- Background: #fafafa
+
+**Required Field Indicator**:
+- Red asterisk (*) after label
+- Color: #e74c3c
+
+**Form Actions**
+- Positioned at bottom with top border (1px #e0e0e0)
+- Padding-top: 12px
+- Display: flex, justify-content: flex-end
+- Gap: 12px
+
+**Cancel Button**
+- Image: /Cancel Button.png (119px × 40px)
+- Display: Custom button image
+
+**Create Button**
+- Image: /Create Button.png (119px × 40px)
+- Display: Custom button image
+
+**Validation Warning Popup**
+- Same as User Onboarding (appears when Create clicked without filling mandatory fields)
+- Message: "Please fill all the mandatory fields"
+
+---
+
+### 6. Manage User Screen
 
 **Purpose**: Display and manage user accounts with filtering, search, and action options.
 
@@ -327,21 +420,27 @@ Grid layout:
 - **Search Bar**
   - Width: 253px
   - Height: 32px
-  - Placeholder: "Search"
-  - Icon: 🔍
+  - Placeholder: "Search" (HTML5 placeholder attribute)
+  - Placeholder Color: #999 with 0.7 opacity
   - Border: 1px solid #ddd
   - Border-radius: 6px
+  - Background: White
   - Focus state: Border color #087B36
+  - Placeholder disappears when typing, reappears when cleared
 
 - **Type Toggle Buttons**
-  - Button 1: User (89px × 32px)
-    - Image: /User Button.png
-    - Active: User Button.png displayed
-  - Button 2: EVP (89px × 32px)
-    - Image: /EVP Button.png
-    - Active: EVP Button.png displayed
-  - Hover: Opacity 0.8
-  - Active: Opacity 1
+  - Button 1: "User" (89px × 32px)
+    - Font: Dubai, 16px
+    - Background: #EBEBEB (inactive)
+    - Text Color: #087B36 (inactive)
+    - Active: Background #087B36, Text Color #FFFFFF
+    - Hover: Opacity 0.9
+  - Button 2: "EVP" (89px × 32px)
+    - Font: Dubai, 16px
+    - Background: #EBEBEB (inactive)
+    - Text Color: #087B36 (inactive)
+    - Active: Background #087B36, Text Color #FFFFFF
+    - Hover: Opacity 0.9
 
 **Users Grid**
 - Layout: CSS Grid with auto-fill columns
@@ -375,6 +474,28 @@ Grid layout:
 - View Icon: /View Icon.png
 - Edit Icon: /Edit Icon.png
 
+**Edit User Details Popup**
+- Modal overlay with semi-transparent background
+- White popup card with rounded corners (12px)
+- Green header bar (#087B36)
+- Form fields for editing user details
+- Close button (✕) in header
+
+**Popup Action Buttons**
+- **Cancel Button**
+  - Image: /Cancel Button.png (119px × 40px)
+  - Display: Custom button image
+  - Background: Light gray (#EBEBEB)
+  - Hover: Opacity 0.9
+  - Click: Closes popup without saving
+
+- **Update Button**
+  - Image: /Update button.png (119px × 40px)
+  - Display: Custom button image
+  - Background: Green (#087B36)
+  - Hover: Opacity 0.9
+  - Click: Saves changes and shows success message
+
 **Pagination**
 - Background: White
 - Padding: 20px
@@ -385,7 +506,7 @@ Grid layout:
 
 ---
 
-### 5. Manage Law Firm Screen
+### 7. Manage Law Firm Screen
 
 **Purpose**: Display and manage law firm accounts with filtering, search, and action options.
 
@@ -403,11 +524,13 @@ Grid layout:
 - **Search Bar**
   - Width: 253px
   - Height: 32px
-  - Placeholder: "Search"
-  - Icon: 🔍
+  - Placeholder: "Search" (HTML5 placeholder attribute)
+  - Placeholder Color: #999 with 0.7 opacity
   - Border: 1px solid #ddd
   - Border-radius: 6px
+  - Background: White
   - Focus state: Border color #087B36
+  - Placeholder disappears when typing, reappears when cleared
 
 - **Filter Button**
   - Size: 32px × 32px
@@ -480,7 +603,7 @@ Grid layout:
 **Card Content**
 - Name: 14px, #222, font-weight: 600
 - Email: 12px, #888
-- Action Buttons: View and Delete
+- Action Buttons: Edit and Delete
 
 **Action Buttons**
 - Button Size: 18px × 18px icon
@@ -488,8 +611,29 @@ Grid layout:
 - Border: None
 - Padding: 4px 8px
 - Hover: Opacity 0.7
-- View Icon: /View Icon.png
+- Edit Icon: /Edit Icon.png
 - Delete Icon: /Delete Icon.png
+
+**Delete Confirmation Popup**
+- Modal overlay with semi-transparent background
+- White popup card centered on screen
+- Red warning icon (✕ in circle)
+- Title: "Confirm Delete"
+- Message: "Are you sure you want to delete [Firm Name]? This action cannot be undone."
+- Action Buttons:
+  - Cancel: Gray button, closes popup without action
+  - Delete: Red button (#d32f2f), confirms and deletes firm
+
+**Edit Law Firm Popup**
+- Modal overlay with semi-transparent background
+- White popup card with rounded corners (12px)
+- Green header bar (#087B36) with "Edit Law Firm" title
+- Form fields for editing law firm details
+- Close button (✕) in header
+- Specialization checkboxes with proper alignment (26px gap between checkbox and text)
+- Action Buttons:
+  - Cancel: Gray button, closes popup
+  - Update: Green button, saves changes
 
 **Pagination**
 - Background: White
@@ -541,12 +685,32 @@ App
     │   ├── Welcome Section
     │   ├── Stats Grid (4 cards)
     │   └── Charts Grid (2 charts)
-    └── User Onboarding View
+    ├── User Onboarding View
+    │   ├── Screen Title + Breadcrumb
+    │   ├── Create EVP Button
+    │   └── Form Card
+    │       ├── Form Fields (5 fields)
+    │       ├── Validation Warning Popup
+    │       └── Action Buttons (Cancel, Create)
+    ├── Law Firm Onboarding View
+    │   ├── Screen Title + Breadcrumb
+    │   └── Form Card
+    │       ├── Form Fields (8 fields including specializations)
+    │       ├── Validation Warning Popup
+    │       └── Action Buttons (Cancel, Create)
+    ├── Manage User View
+    │   ├── Screen Title + Breadcrumb
+    │   ├── Controls (Search, User/EVP Toggle)
+    │   ├── User Cards Grid
+    │   ├── Edit User Popup
+    │   └── Pagination
+    └── Manage Law Firm View
         ├── Screen Title + Breadcrumb
-        ├── Create EVP Button
-        └── Form Card
-            ├── Form Fields (5 fields)
-            └── Action Buttons (Cancel, Create)
+        ├── Controls (Search, Filter)
+        ├── Law Firm Cards Grid
+        ├── Edit Law Firm Popup
+        ├── Delete Confirmation Popup
+        └── Pagination
 ```
 
 ---
@@ -606,8 +770,21 @@ App
 ## Future Enhancements
 
 - Error/Success toast notifications
-- Form validation messages
 - Loading states for charts
-- Additional screens for Manage User, Manage Law Firm, etc.
 - Dark mode theme
 - Internationalization (i18n) for Arabic/English
+- Advanced filtering and sorting options
+- Bulk operations on user/law firm records
+- Custom date range selectors
+- Export/Import functionality
+
+## Recently Completed Features
+
+✅ User and Law Firm Onboarding with validation warnings
+✅ Manage User screen with edit popup and User/EVP toggles
+✅ Manage Law Firm screen with edit and delete functionality
+✅ Delete confirmation popups
+✅ Custom button styling with images
+✅ Proper HTML5 placeholder support in search boxes
+✅ Improved form field alignment (specialization checkboxes)
+✅ Button label styling with Dubai font
