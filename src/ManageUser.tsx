@@ -23,7 +23,9 @@ interface ManageUserProps {
 function ManageUser({ onNavigateToDashboard }: ManageUserProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const [userType, setUserType] = useState<'user' | 'evp'>('user')
-  const [currentPage] = useState(1)
+  const [currentUserPage, setCurrentUserPage] = useState(1)
+  const [currentEVPPage, setCurrentEVPPage] = useState(1)
+  const rowsPerPage = 8
 
   const [showViewPopup, setShowViewPopup] = useState(false)
   const [showEditPopup, setShowEditPopup] = useState(false)
@@ -43,35 +45,61 @@ function ManageUser({ onNavigateToDashboard }: ManageUserProps) {
   const [editingEVPId, setEditingEVPId] = useState<string | null>(null)
   const [editingEVPEmail, setEditingEVPEmail] = useState('')
 
-  const users: User[] = [
-    { id: '1', name: 'Fazl ur Rahman', email: 'fazlurr@example.com', initials: 'FR', avatarColor: '#FFD700', status: 'Active' },
-    { id: '2', name: 'John Doe', email: 'john@example.com', initials: 'JD', avatarColor: '#87CEEB', status: 'Inactive' },
-    { id: '3', name: 'Anna Schmidt', email: 'anna@example.com', initials: 'AS', avatarColor: '#FFB347', status: 'Active' },
-    { id: '4', name: 'Luca Rossi', email: 'luca.rossi@example.com', initials: 'LR', avatarColor: '#FFB6C1', status: 'Active' },
-    { id: '5', name: 'Claire Dupont', email: 'claire.dupont@example.com', initials: 'CD', avatarColor: '#DEB887', status: 'Inactive' },
-    { id: '6', name: 'Carlos Martinez', email: 'carlos@org.com', initials: 'CM', avatarColor: '#90EE90', status: 'Inactive' },
-    { id: '7', name: 'Haruto Tanaka', email: 'haruto@org.com', initials: 'HT', avatarColor: '#98FB98', status: 'Active' },
-    { id: '8', name: 'Li Wei', email: 'li@org.com', initials: 'LW', avatarColor: '#87CEEB', status: 'Active' },
-    { id: '9', name: 'Svetlana Ivanova', email: 'svetlana@org.com', initials: 'SI', avatarColor: '#6495ED', status: 'Inactive' },
-    { id: '10', name: 'Maria Silva', email: 'maria.silva@org.com', initials: 'MS', avatarColor: '#DDA0DD', status: 'Active' },
-    { id: '11', name: 'João Pereira', email: 'joao@org.com', initials: 'JP', avatarColor: '#DB7093', status: 'Inactive' },
-    { id: '12', name: 'Anouk Jansen', email: 'anouk@org.com', initials: 'AJ', avatarColor: '#FF69B4', status: 'Active' }
-  ]
+  const generateUsers = (): User[] => {
+    const names = [
+      'Fazl ur Rahman', 'John Doe', 'Anna Schmidt', 'Luca Rossi', 'Claire Dupont', 'Carlos Martinez',
+      'Haruto Tanaka', 'Li Wei', 'Svetlana Ivanova', 'Maria Silva', 'João Pereira', 'Anouk Jansen',
+      'Ahmed Hassan', 'Fatima Khan', 'Marco Ferri', 'Elena Rossi', 'David Cohen', 'Sofia Mendez',
+      'Yuki Yamamoto', 'Priya Sharma', 'Lars Bergström', 'Maria García', 'Dimitri Petrov', 'Aisha Ali',
+      'Bruno Silva', 'Isabella Romano', 'Henrik Andersen', 'Leila Dubois', 'Raj Patel', 'Emma Wilson',
+      'Stefan Müller', 'Mira Kapoor', 'Giovanni Bianchi', 'Nadia Farah', 'Oscar López', 'Lucia Conti',
+      'Thomas Schmidt', 'Amira Hassan', 'Patrick Dubois', 'Rosa Moretti', 'Viktor Novak', 'Zainab Ali',
+      'Robert Taylor', 'Maya Ravi', 'Nicolas Blanc'
+    ]
+    const colors = ['#FFD700', '#87CEEB', '#FFB347', '#FFB6C1', '#DEB887', '#90EE90', '#98FB98', '#6495ED', '#DDA0DD', '#DB7093']
+    const statuses: ('Active' | 'Inactive')[] = ['Active', 'Inactive']
 
-  const evps: EVP[] = [
-    { id: '1', department: 'Dept / Legal Manager', email: 'john@example.com' },
-    { id: '2', department: 'Dept / Contracts Management', email: 'jane@example.com' },
-    { id: '3', department: 'Dept / Finance', email: 'bob@example.com' },
-    { id: '4', department: 'Dept / Operations', email: 'alice@example.com' },
-    { id: '5', department: 'Dept / Contracts Management', email: 'charlie@example.com' },
-    { id: '6', department: 'Dept / Contracts Management', email: 'diana@example.com' },
-    { id: '7', department: 'Dept / Finance', email: 'eve@example.com' },
-    { id: '8', department: 'Dept / Operations', email: 'frank@example.com' },
-    { id: '9', department: 'Dept / Legal Manager', email: 'grace@example.com' },
-    { id: '10', department: 'Dept / Contracts Management', email: 'henry@example.com' },
-    { id: '11', department: 'Dept / Finance', email: 'iris@example.com' },
-    { id: '12', department: 'Dept / Operations', email: 'jack@example.com' }
-  ]
+    return names.map((name, index) => ({
+      id: String(index + 1),
+      name,
+      email: `${name.toLowerCase().replace(/\s+/g, '.')}@example.com`,
+      initials: name.split(' ').map(n => n[0]).join('').substring(0, 2),
+      avatarColor: colors[index % colors.length],
+      status: statuses[index % statuses.length]
+    }))
+  }
+
+  const users: User[] = generateUsers()
+
+  const generateEVPs = (): EVP[] => {
+    const departments = [
+      'Dept / Legal Manager', 'Dept / Contracts Management', 'Dept / Finance', 'Dept / Operations',
+      'Dept / HR', 'Dept / Sales', 'Dept / Marketing', 'Dept / IT', 'Dept / Engineering', 'Dept / Procurement'
+    ]
+    const emails = [
+      'john@example.com', 'jane@example.com', 'bob@example.com', 'alice@example.com', 'charlie@example.com',
+      'diana@example.com', 'eve@example.com', 'frank@example.com', 'grace@example.com', 'henry@example.com',
+      'iris@example.com', 'jack@example.com', 'kevin@example.com', 'laura@example.com', 'mike@example.com',
+      'nancy@example.com', 'oliver@example.com', 'patricia@example.com', 'quinn@example.com', 'rachel@example.com',
+      'steven@example.com', 'tina@example.com', 'uma@example.com', 'victor@example.com', 'wendy@example.com',
+      'xavier@example.com', 'yara@example.com', 'zack@example.com', 'alice.smith@example.com', 'bob.johnson@example.com',
+      'carol.white@example.com', 'david.brown@example.com', 'emma.davis@example.com', 'frank.miller@example.com',
+      'grace.wilson@example.com', 'henry.moore@example.com', 'iris.taylor@example.com', 'jack.anderson@example.com',
+      'kevin.thomas@example.com', 'laura.jackson@example.com', 'mike.martin@example.com', 'nancy.garcia@example.com',
+      'oliver.lee@example.com', 'patricia.harris@example.com', 'quinn.clark@example.com', 'rachel.lewis@example.com',
+      'steven.robinson@example.com', 'tina.walker@example.com', 'uma.hall@example.com', 'victor.young@example.com',
+      'wendy.hernandez@example.com', 'xavier.king@example.com', 'yara.wright@example.com', 'zack.lopez@example.com',
+      'aria.hill@example.com', 'blake.scott@example.com', 'chloe.green@example.com', 'dylan.adams@example.com'
+    ]
+
+    return Array.from({ length: 62 }, (_, index) => ({
+      id: String(index + 1),
+      department: departments[index % departments.length],
+      email: emails[index % emails.length]
+    }))
+  }
+
+  const evps: EVP[] = generateEVPs()
 
   const filteredUsers = users.filter(user =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -82,6 +110,43 @@ function ManageUser({ onNavigateToDashboard }: ManageUserProps) {
     evp.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
     evp.email.toLowerCase().includes(searchTerm.toLowerCase())
   )
+
+  const userTotalPages = Math.ceil(filteredUsers.length / rowsPerPage)
+  const evpTotalPages = Math.ceil(filteredEVPs.length / rowsPerPage)
+  const currentPage = userType === 'user' ? currentUserPage : currentEVPPage
+  const totalPages = userType === 'user' ? userTotalPages : evpTotalPages
+
+  const userStartIndex = (currentUserPage - 1) * rowsPerPage
+  const userEndIndex = userStartIndex + rowsPerPage
+  const paginatedUsers = filteredUsers.slice(userStartIndex, userEndIndex)
+
+  const evpStartIndex = (currentEVPPage - 1) * rowsPerPage
+  const evpEndIndex = evpStartIndex + rowsPerPage
+  const paginatedEVPs = filteredEVPs.slice(evpStartIndex, evpEndIndex)
+
+  const handlePageChange = (page: number) => {
+    if (userType === 'user') {
+      setCurrentUserPage(Math.min(Math.max(1, page), userTotalPages))
+    } else {
+      setCurrentEVPPage(Math.min(Math.max(1, page), evpTotalPages))
+    }
+  }
+
+  const getVisiblePages = () => {
+    const pages = []
+    const maxPagesToShow = 4
+    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2))
+    const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1)
+
+    if (endPage - startPage + 1 < maxPagesToShow) {
+      startPage = Math.max(1, endPage - maxPagesToShow + 1)
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i)
+    }
+    return pages
+  }
 
   const handleViewClick = (user: User) => {
     setSelectedUser(user)
@@ -198,14 +263,20 @@ function ManageUser({ onNavigateToDashboard }: ManageUserProps) {
               <button
                 data-button-type="user"
                 className={userType === 'user' ? 'type-btn active' : 'type-btn'}
-                onClick={() => setUserType('user')}
+                onClick={() => {
+                  setUserType('user')
+                  setCurrentUserPage(1)
+                }}
               >
                 User
               </button>
               <button
                 data-button-type="evp"
                 className={userType === 'evp' ? 'type-btn active' : 'type-btn'}
-                onClick={() => setUserType('evp')}
+                onClick={() => {
+                  setUserType('evp')
+                  setCurrentEVPPage(1)
+                }}
               >
                 EVP
               </button>
@@ -215,7 +286,7 @@ function ManageUser({ onNavigateToDashboard }: ManageUserProps) {
       </div>
 
       <div className="users-grid">
-        {userType === 'user' && filteredUsers.map((user) => (
+        {userType === 'user' && paginatedUsers.map((user) => (
           <div key={user.id} className="user-card">
             <div className="user-card-content">
               <div className="user-avatar" style={{ backgroundColor: user.avatarColor }}>
@@ -241,7 +312,7 @@ function ManageUser({ onNavigateToDashboard }: ManageUserProps) {
             </div>
           </div>
         ))}
-        {userType === 'evp' && filteredEVPs.map((evp) => (
+        {userType === 'evp' && paginatedEVPs.map((evp) => (
           <div key={evp.id} className="evp-card">
             <div className="evp-card-header">
               <h3>{evp.department}</h3>
@@ -282,14 +353,19 @@ function ManageUser({ onNavigateToDashboard }: ManageUserProps) {
       </div>
 
       <div className="pagination">
-        <span className="record-count">Total Number of Records: 120</span>
+        <span className="record-count">Total Number of Records: {userType === 'user' ? 45 : 62}</span>
         <div className="pagination-controls">
-          <button className="nav-btn">◀</button>
-          <span className="current-page">{currentPage}</span>
-          <button className="page-btn">2</button>
-          <button className="page-btn">3</button>
-          <button className="page-btn">4</button>
-          <button className="nav-btn">▶</button>
+          <button className="nav-btn" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>◀</button>
+          {getVisiblePages().map((page) => (
+            <button
+              key={page}
+              className={`page-btn ${currentPage === page ? 'active' : ''}`}
+              onClick={() => handlePageChange(page)}
+            >
+              {page}
+            </button>
+          ))}
+          <button className="nav-btn" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>▶</button>
           <input type="text" placeholder="10" className="page-input" />
           <button className="nav-btn">⋯</button>
         </div>

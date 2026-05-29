@@ -17,8 +17,9 @@ function ManageLawFirm({ onNavigateToDashboard }: ManageLawFirmProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const [registrationFilter, setRegistrationFilter] = useState('')
   const [specializationFilter, setSpecializationFilter] = useState('')
-  const [currentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
   const [showFilterPopup, setShowFilterPopup] = useState(false)
+  const rowsPerPage = 12
 
   const [showEditPopup, setShowEditPopup] = useState(false)
   const [showUpdateSuccessPopup, setShowUpdateSuccessPopup] = useState(false)
@@ -36,18 +37,38 @@ function ManageLawFirm({ onNavigateToDashboard }: ManageLawFirmProps) {
     specializations: [] as string[]
   })
 
-  const lawFirms: LawFirm[] = [
-    { id: '1', name: 'Law Firm Name1', email: 'email@example.com', registrationNo: 'REG001', specialization: 'Civil' },
-    { id: '2', name: 'Law Firm Name2', email: 'bob@example.com', registrationNo: 'REG002', specialization: 'Commercial' },
-    { id: '3', name: 'Law Firm Name3', email: 'carol@example.com', registrationNo: 'REG003', specialization: 'Arbitration' },
-    { id: '4', name: 'Law Firm Name5', email: 'eve@example.com', registrationNo: 'REG004', specialization: 'Criminal' },
-    { id: '5', name: 'Law Firm Name6', email: 'frank@example.com', registrationNo: 'REG005', specialization: 'Civil' },
-    { id: '6', name: 'Law Firm Name7', email: 'grace@example.com', registrationNo: 'REG006', specialization: 'Commercial' },
-    { id: '7', name: 'Law Firm Name9', email: 'iris@example.com', registrationNo: 'REG007', specialization: 'Arbitration' },
-    { id: '8', name: 'Law Firm Name10', email: 'jack@example.com', registrationNo: 'REG008', specialization: 'Criminal' },
-    { id: '9', name: 'Law Firm Name11', email: 'kathy@example.com', registrationNo: 'REG009', specialization: 'Civil' },
-    { id: '10', name: 'Law Firm Name12', email: 'lake@example.com', registrationNo: 'REG010', specialization: 'Commercial' }
-  ]
+  const generateLawFirms = (): LawFirm[] => {
+    const names = [
+      'Law Firm Name1', 'Law Firm Name2', 'Law Firm Name3', 'Law Firm Name4', 'Law Firm Name5',
+      'Law Firm Name6', 'Law Firm Name7', 'Law Firm Name8', 'Law Firm Name9', 'Law Firm Name10',
+      'Law Firm Name11', 'Law Firm Name12', 'Law Firm Name13', 'Law Firm Name14', 'Law Firm Name15',
+      'Law Firm Name16', 'Law Firm Name17', 'Law Firm Name18', 'Law Firm Name19', 'Law Firm Name20',
+      'Law Firm Name21', 'Law Firm Name22', 'Law Firm Name23', 'Law Firm Name24', 'Law Firm Name25',
+      'Law Firm Name26', 'Law Firm Name27', 'Law Firm Name28', 'Law Firm Name29', 'Law Firm Name30',
+      'Law Firm Name31', 'Law Firm Name32', 'Law Firm Name33', 'Law Firm Name34', 'Law Firm Name35',
+      'Law Firm Name36', 'Law Firm Name37', 'Law Firm Name38', 'Law Firm Name39', 'Law Firm Name40',
+      'Law Firm Name41', 'Law Firm Name42', 'Law Firm Name43', 'Law Firm Name44', 'Law Firm Name45',
+      'Law Firm Name46', 'Law Firm Name47', 'Law Firm Name48', 'Law Firm Name49', 'Law Firm Name50',
+      'Law Firm Name51', 'Law Firm Name52', 'Law Firm Name53', 'Law Firm Name54', 'Law Firm Name55',
+      'Law Firm Name56', 'Law Firm Name57', 'Law Firm Name58', 'Law Firm Name59', 'Law Firm Name60',
+      'Law Firm Name61', 'Law Firm Name62', 'Law Firm Name63', 'Law Firm Name64', 'Law Firm Name65',
+      'Law Firm Name66', 'Law Firm Name67', 'Law Firm Name68', 'Law Firm Name69', 'Law Firm Name70',
+      'Law Firm Name71', 'Law Firm Name72', 'Law Firm Name73', 'Law Firm Name74', 'Law Firm Name75',
+      'Law Firm Name76', 'Law Firm Name77', 'Law Firm Name78', 'Law Firm Name79', 'Law Firm Name80',
+      'Law Firm Name81', 'Law Firm Name82', 'Law Firm Name83', 'Law Firm Name84'
+    ]
+    const specializations = ['Civil', 'Commercial', 'Arbitration', 'Criminal']
+
+    return names.map((name, index) => ({
+      id: String(index + 1),
+      name,
+      email: `firm${index + 1}@example.com`,
+      registrationNo: `REG${String(index + 1).padStart(3, '0')}`,
+      specialization: specializations[index % specializations.length]
+    }))
+  }
+
+  const lawFirms: LawFirm[] = generateLawFirms()
 
   const handleClearFilters = () => {
     setRegistrationFilter('')
@@ -154,6 +175,31 @@ function ManageLawFirm({ onNavigateToDashboard }: ManageLawFirmProps) {
     return matchesSearch && matchesRegistration && matchesSpecialization
   })
 
+  const totalPages = Math.ceil(filteredLawFirms.length / rowsPerPage)
+  const startIndex = (currentPage - 1) * rowsPerPage
+  const endIndex = startIndex + rowsPerPage
+  const paginatedLawFirms = filteredLawFirms.slice(startIndex, endIndex)
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(Math.min(Math.max(1, page), totalPages))
+  }
+
+  const getVisiblePages = () => {
+    const pages = []
+    const maxPagesToShow = 4
+    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2))
+    const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1)
+
+    if (endPage - startPage + 1 < maxPagesToShow) {
+      startPage = Math.max(1, endPage - maxPagesToShow + 1)
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i)
+    }
+    return pages
+  }
+
   return (
     <div className="manage-law-firm">
       <div className="manage-header-section">
@@ -238,7 +284,7 @@ function ManageLawFirm({ onNavigateToDashboard }: ManageLawFirmProps) {
       </div>
 
       <div className="law-firms-grid">
-        {filteredLawFirms.map((firm) => (
+        {paginatedLawFirms.map((firm) => (
           <div key={firm.id} className="law-firm-card">
             <div className="firm-card-content">
               <div className="firm-info">
@@ -259,14 +305,19 @@ function ManageLawFirm({ onNavigateToDashboard }: ManageLawFirmProps) {
       </div>
 
       <div className="pagination">
-        <span className="record-count">Total Number of Records: 120</span>
+        <span className="record-count">Total Number of Records: 84</span>
         <div className="pagination-controls">
-          <button className="nav-btn">◀</button>
-          <span className="current-page">{currentPage}</span>
-          <button className="page-btn">2</button>
-          <button className="page-btn">3</button>
-          <button className="page-btn">4</button>
-          <button className="nav-btn">▶</button>
+          <button className="nav-btn" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>◀</button>
+          {getVisiblePages().map((page) => (
+            <button
+              key={page}
+              className={`page-btn ${currentPage === page ? 'active' : ''}`}
+              onClick={() => handlePageChange(page)}
+            >
+              {page}
+            </button>
+          ))}
+          <button className="nav-btn" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>▶</button>
           <input type="text" placeholder="10" className="page-input" />
           <button className="nav-btn">⋯</button>
         </div>
