@@ -5,21 +5,19 @@ import Header from './components/Header'
 import StatsCard from './components/StatsCard'
 import UsersChart from './components/UsersChart'
 import SpecializationChart from './components/SpecializationChart'
-import UserOnboarding from './UserOnboarding'
-import ManageUser from './ManageUser'
-import OnboardLawFirm from './OnboardLawFirm'
-import ManageLawFirm from './ManageLawFirm'
+import RaisingCase from './RaisingCase'
+import CaseList from './CaseList'
 
-type DashboardView = 'dashboard' | 'onboard-user' | 'manage-user' | 'onboard-firm' | 'manage-firm' | 'logout'
+type InitiatorDashboardView = 'dashboard' | 'raise-case' | 'case-list' | 'logout'
 
-interface DashboardProps {
+interface InitiatorDashboardProps {
   onLogout?: () => void
 }
 
-function Dashboard({ onLogout }: DashboardProps) {
+function InitiatorDashboard({ onLogout }: InitiatorDashboardProps) {
   const [userName] = useState('Muhammad Ahmad')
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
-  const [currentView, setCurrentView] = useState<DashboardView>('dashboard')
+  const [currentView, setCurrentView] = useState<InitiatorDashboardView>('dashboard')
 
   const today = new Date()
   const dateString = today.toLocaleDateString('en-US', {
@@ -30,10 +28,17 @@ function Dashboard({ onLogout }: DashboardProps) {
   })
 
   const stats = [
-    { label: 'Total Users', value: '100', icon: '👥' },
-    { label: 'Active User', value: '98', icon: '✓' },
-    { label: 'Law Firms', value: '56', icon: '⚖️' },
-    { label: 'Total EVP', value: '56', icon: '⚙️' }
+    { label: 'Total Cases Raised', value: '24', icon: '📋' },
+    { label: 'Approved', value: '10', icon: '✅' },
+    { label: 'Rejected', value: '4', icon: '✗' },
+    { label: 'Pending', value: '10', icon: '⏳' }
+  ]
+
+  const initiatorMenuItems = [
+    { icon: '/Dashboard.png', label: 'Dashboard', id: 'dashboard' },
+    { icon: '/Onboard User.png', label: 'Raise Case', id: 'raise-case' },
+    { icon: '/Manage User.png', label: 'Case List', id: 'case-list' },
+    { icon: '/Logout.png', label: 'Logout', id: 'logout' }
   ]
 
   const handleNavigateToScreen = (view: string) => {
@@ -42,7 +47,7 @@ function Dashboard({ onLogout }: DashboardProps) {
         onLogout()
       }
     } else {
-      setCurrentView(view as DashboardView)
+      setCurrentView(view as InitiatorDashboardView)
     }
   }
 
@@ -53,6 +58,7 @@ function Dashboard({ onLogout }: DashboardProps) {
         onLogout={onLogout}
         onNavigate={handleNavigateToScreen}
         activeItem={currentView}
+        menuItems={initiatorMenuItems}
       />
       <div className="dashboard-main">
         <Header
@@ -83,21 +89,15 @@ function Dashboard({ onLogout }: DashboardProps) {
             </div>
           </div>
         )}
-        {currentView === 'onboard-user' && (
-          <UserOnboarding onNavigateToDashboard={() => setCurrentView('dashboard')} />
+        {currentView === 'raise-case' && (
+          <RaisingCase onNavigateToDashboard={() => setCurrentView('dashboard')} />
         )}
-        {currentView === 'manage-user' && (
-          <ManageUser onNavigateToDashboard={() => setCurrentView('dashboard')} />
-        )}
-        {currentView === 'onboard-firm' && (
-          <OnboardLawFirm onNavigateToDashboard={() => setCurrentView('dashboard')} />
-        )}
-        {currentView === 'manage-firm' && (
-          <ManageLawFirm onNavigateToDashboard={() => setCurrentView('dashboard')} />
+        {currentView === 'case-list' && (
+          <CaseList onNavigateToDashboard={() => setCurrentView('dashboard')} />
         )}
       </div>
     </div>
   )
 }
 
-export default Dashboard
+export default InitiatorDashboard

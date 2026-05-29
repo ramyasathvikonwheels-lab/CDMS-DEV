@@ -1,11 +1,18 @@
 import { useState, useRef } from 'react'
 import './Sidebar.css'
 
+interface MenuItem {
+  icon: string
+  label: string
+  id: string
+}
+
 interface SidebarProps {
   isOpen: boolean
   onLogout?: () => void
-  onNavigate?: (view: 'dashboard' | 'onboard-user' | 'manage-user' | 'onboard-firm' | 'manage-firm' | 'logout') => void
+  onNavigate?: (view: string) => void
   activeItem?: string
+  menuItems?: MenuItem[]
 }
 
 interface TooltipPos {
@@ -13,14 +20,14 @@ interface TooltipPos {
   left: number
 }
 
-function Sidebar({ isOpen, onNavigate, activeItem: activeItemProp }: SidebarProps) {
+function Sidebar({ isOpen, onNavigate, activeItem: activeItemProp, menuItems: customMenuItems }: SidebarProps) {
   const [activeItem, setActiveItem] = useState('dashboard')
   const [tooltipItem, setTooltipItem] = useState<string | null>(null)
   const [tooltipPos, setTooltipPos] = useState<TooltipPos | null>(null)
   const displayActiveItem = activeItemProp || activeItem
   const buttonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({})
 
-  const menuItems = [
+  const defaultMenuItems = [
     { icon: '/Dashboard.png', label: 'Dashboard', id: 'dashboard' },
     { icon: '/Onboard User.png', label: 'Onboard User', id: 'onboard-user' },
     { icon: '/Manage User.png', label: 'Manage User', id: 'manage-user' },
@@ -29,10 +36,12 @@ function Sidebar({ isOpen, onNavigate, activeItem: activeItemProp }: SidebarProp
     { icon: '/Logout.png', label: 'Logout', id: 'logout' }
   ]
 
+  const menuItems = customMenuItems || defaultMenuItems
+
   const handleItemClick = (id: string) => {
     setActiveItem(id)
     if (onNavigate) {
-      onNavigate(id as 'dashboard' | 'onboard-user' | 'manage-user' | 'onboard-firm' | 'manage-firm' | 'logout')
+      onNavigate(id)
     }
   }
 

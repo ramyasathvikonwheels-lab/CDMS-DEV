@@ -2,15 +2,16 @@ import { useState } from 'react'
 import './LandingPage.css'
 
 interface LandingPageProps {
-  onGetStarted?: () => void
+  onGetStarted?: (role: 'admin' | 'initiator') => void
 }
 
 function LandingPage({ onGetStarted }: LandingPageProps) {
   const [language, setLanguage] = useState<'en' | 'ar'>('en')
+  const [role, setRole] = useState<'admin' | 'initiator'>('admin')
 
   const handleGetStarted = () => {
     if (onGetStarted) {
-      onGetStarted()
+      onGetStarted(role)
     }
   }
 
@@ -46,6 +47,20 @@ function LandingPage({ onGetStarted }: LandingPageProps) {
           <div className="content-section">
             <h1 className="title">{text.title}</h1>
             <p className="description">{text.description}</p>
+
+            {/* Role Selector */}
+            <div className="role-selector">
+              <label htmlFor="role-dropdown">Select Role:</label>
+              <select
+                id="role-dropdown"
+                value={role}
+                onChange={(e) => setRole(e.target.value as 'admin' | 'initiator')}
+                className="role-dropdown"
+              >
+                <option value="admin">Admin</option>
+                <option value="initiator">Initiator</option>
+              </select>
+            </div>
 
             {/* Buttons */}
             <div className="buttons-section">
