@@ -13,11 +13,11 @@ import ManageLawFirm from './ManageLawFirm'
 type DashboardView = 'dashboard' | 'onboard-user' | 'manage-user' | 'onboard-firm' | 'manage-firm' | 'logout'
 
 interface DashboardProps {
+  userName?: string
   onLogout?: () => void
 }
 
-function Dashboard({ onLogout }: DashboardProps) {
-  const [userName] = useState('Muhammad Ahmad')
+function Dashboard({ userName = 'User', onLogout }: DashboardProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [currentView, setCurrentView] = useState<DashboardView>('dashboard')
 
@@ -58,6 +58,7 @@ function Dashboard({ onLogout }: DashboardProps) {
         <Header
           userName={userName}
           onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          onLogout={onLogout}
         />
         {currentView === 'dashboard' && (
           <div className="dashboard-content">

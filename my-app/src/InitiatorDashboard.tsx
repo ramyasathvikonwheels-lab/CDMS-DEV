@@ -11,11 +11,11 @@ import CaseList from './CaseList'
 type InitiatorDashboardView = 'dashboard' | 'raise-case' | 'case-list' | 'logout'
 
 interface InitiatorDashboardProps {
+  userName?: string
   onLogout?: () => void
 }
 
-function InitiatorDashboard({ onLogout }: InitiatorDashboardProps) {
-  const [userName] = useState('Muhammad Ahmad')
+function InitiatorDashboard({ userName = 'User', onLogout }: InitiatorDashboardProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [currentView, setCurrentView] = useState<InitiatorDashboardView>('dashboard')
 
@@ -64,6 +64,7 @@ function InitiatorDashboard({ onLogout }: InitiatorDashboardProps) {
         <Header
           userName={userName}
           onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          onLogout={onLogout}
         />
         {currentView === 'dashboard' && (
           <div className="dashboard-content">
