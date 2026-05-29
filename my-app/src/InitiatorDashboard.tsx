@@ -7,8 +7,19 @@ import UsersChart from './components/UsersChart'
 import SpecializationChart from './components/SpecializationChart'
 import RaisingCase from './RaisingCase'
 import CaseList from './CaseList'
+import ViewCaseDetails from './ViewCaseDetails'
+import EditCaseDetails from './EditCaseDetails'
 
-type InitiatorDashboardView = 'dashboard' | 'raise-case' | 'case-list' | 'logout'
+type InitiatorDashboardView = 'dashboard' | 'raise-case' | 'case-list' | 'view-case' | 'edit-case' | 'logout'
+
+interface Case {
+  id: string
+  title: string
+  status: 'Approved' | 'Further Info' | 'In Progress' | 'Pending'
+  department: string
+  referenceNo: string
+  requestedDate: string
+}
 
 interface InitiatorDashboardProps {
   userName?: string
@@ -18,6 +29,7 @@ interface InitiatorDashboardProps {
 function InitiatorDashboard({ userName = 'User', onLogout }: InitiatorDashboardProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [currentView, setCurrentView] = useState<InitiatorDashboardView>('dashboard')
+  const [selectedCase, setSelectedCase] = useState<Case | null>(null)
 
   const today = new Date()
   const dateString = today.toLocaleDateString('en-US', {
@@ -94,7 +106,33 @@ function InitiatorDashboard({ userName = 'User', onLogout }: InitiatorDashboardP
           <RaisingCase onNavigateToDashboard={() => setCurrentView('dashboard')} />
         )}
         {currentView === 'case-list' && (
-          <CaseList onNavigateToDashboard={() => setCurrentView('dashboard')} />
+          <CaseList
+            onNavigateToDashboard={() => setCurrentView('dashboard')}
+            onViewCase={(caseData) => {
+              setSelectedCase(caseData)
+              setCurrentView('view-case')
+            }}
+            onEditCase={(caseData) => {
+              setSelectedCase(caseData)
+              setCurrentView('edit-case')
+            }}
+          />
+        )}
+        {currentView === 'view-case' && selectedCase && (
+          <ViewCaseDetails
+            caseData={selectedCase}
+            onNavigateToDashboard={() => setCurrentView('dashboard')}
+            onNavigateToCaseList={() => setCurrentView('case-list')}
+            onEdit={() => setCurrentView('edit-case')}
+          />
+        )}
+        {currentView === 'edit-case' && selectedCase && (
+          <EditCaseDetails
+            caseData={selectedCase}
+            onNavigateToDashboard={() => setCurrentView('dashboard')}
+            onNavigateToCaseList={() => setCurrentView('case-list')}
+            onSave={() => setCurrentView('case-list')}
+          />
         )}
       </div>
     </div>

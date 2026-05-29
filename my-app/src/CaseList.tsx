@@ -12,11 +12,15 @@ interface Case {
 
 interface CaseListProps {
   onNavigateToDashboard?: () => void
+  onViewCase?: (caseData: Case) => void
+  onEditCase?: (caseData: Case) => void
 }
 
-function CaseList({ onNavigateToDashboard }: CaseListProps) {
+function CaseList({ onNavigateToDashboard, onViewCase, onEditCase }: CaseListProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
+  const [selectedViewRowId, setSelectedViewRowId] = useState<string | null>(null)
+  const [selectedEditRowId, setSelectedEditRowId] = useState<string | null>(null)
   const rowsPerPage = 5
 
   const cases: Case[] = [
@@ -121,11 +125,33 @@ function CaseList({ onNavigateToDashboard }: CaseListProps) {
                 <td>{caseItem.referenceNo}</td>
                 <td>{caseItem.requestedDate}</td>
                 <td className="action-cell">
-                  <button className="action-btn" title="View">
-                    <img src="/View_New.png" alt="View" />
+                  <button
+                    className="action-btn view-btn"
+                    title="View"
+                    onMouseDown={() => setSelectedViewRowId(caseItem.id)}
+                    onMouseUp={() => setSelectedViewRowId(null)}
+                    onMouseLeave={() => setSelectedViewRowId(null)}
+                    onClick={() => onViewCase?.(caseItem)}
+                  >
+                    <img src={selectedViewRowId === caseItem.id ? '/View3.png' : '/View2.png'} alt="View" />
                   </button>
-                  <button className="action-btn" title="Edit">
-                    <img src="/Update_New.png" alt="Edit" />
+                  <button
+                    className={`action-btn edit-btn ${caseItem.status === 'Further Info' ? 'enabled' : 'disabled'}`}
+                    title="Edit"
+                    disabled={caseItem.status !== 'Further Info'}
+                    onMouseDown={() => caseItem.status === 'Further Info' && setSelectedEditRowId(caseItem.id)}
+                    onMouseUp={() => setSelectedEditRowId(null)}
+                    onMouseLeave={() => setSelectedEditRowId(null)}
+                    onClick={() => caseItem.status === 'Further Info' && onEditCase?.(caseItem)}
+                  >
+                    <img
+                      src={
+                        caseItem.status === 'Further Info'
+                          ? selectedEditRowId === caseItem.id ? '/Edit4.png' : '/Edit3.png'
+                          : '/Edit2.png'
+                      }
+                      alt="Edit"
+                    />
                   </button>
                 </td>
               </tr>
