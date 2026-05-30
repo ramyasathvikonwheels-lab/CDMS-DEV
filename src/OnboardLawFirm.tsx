@@ -226,10 +226,13 @@ function OnboardLawFirm({ onNavigateToDashboard }: OnboardLawFirmProps) {
 
           <div className="form-actions">
             <button className="cancel-btn" onClick={handleCancel}>
-              <img src="/Cancel Button.png" alt="Cancel" />
+              Cancel
             </button>
             <button className="create-btn" onClick={handleCreateFirm}>
-              <img src="/Create Button.png" alt="Create" />
+              <svg className="create-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              Create Firm
             </button>
           </div>
         </div>

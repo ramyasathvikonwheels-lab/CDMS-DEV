@@ -187,7 +187,7 @@ function UserOnboarding({ onNavigateToDashboard }: UserOnboardingProps) {
               </div>
             </div>
 
-            <div className="form-row">
+            <div className="form-row two-col-row">
               <div className="form-field">
                 <label htmlFor="userType">
                   User Type <span className="required">*</span>
