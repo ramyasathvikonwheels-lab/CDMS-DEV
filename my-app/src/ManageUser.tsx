@@ -25,7 +25,7 @@ function ManageUser({ onNavigateToDashboard }: ManageUserProps) {
   const [userType, setUserType] = useState<'user' | 'evp'>('user')
   const [currentUserPage, setCurrentUserPage] = useState(1)
   const [currentEVPPage, setCurrentEVPPage] = useState(1)
-  const rowsPerPage = 8
+  const rowsPerPage = 12
 
   const [showViewPopup, setShowViewPopup] = useState(false)
   const [showEditPopup, setShowEditPopup] = useState(false)
@@ -296,19 +296,21 @@ function ManageUser({ onNavigateToDashboard }: ManageUserProps) {
                 <h3>{user.name}</h3>
                 <p>{user.email}</p>
               </div>
+            </div>
+            <div className="user-card-bottom">
               <div className="user-status">
                 <span className={`status-badge ${user.status.toLowerCase()}`}>
                   {user.status === 'Active' ? '●' : '●'} {user.status}
                 </span>
               </div>
-            </div>
-            <div className="user-actions">
-              <button className="action-btn" title="View" onClick={() => handleViewClick(user)}>
-                <img src="/View Icon.png" alt="View" />
-              </button>
-              <button className="action-btn" title="Edit" onClick={() => handleEditClick(user)}>
-                <img src="/Edit Icon.png" alt="Edit" />
-              </button>
+              <div className="user-actions">
+                <button className="action-btn" title="View" onClick={() => handleViewClick(user)}>
+                  <img src="/View Icon.png" alt="View" />
+                </button>
+                <button className="action-btn" title="Edit" onClick={() => handleEditClick(user)}>
+                  <img src="/Edit Icon.png" alt="Edit" />
+                </button>
+              </div>
             </div>
           </div>
         ))}
